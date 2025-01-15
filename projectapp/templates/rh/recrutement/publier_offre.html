@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publier une Offre d'Emploi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        main {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #343a40;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        label {
+            font-weight: bold;
+            color: #343a40;
+        }
+        input, textarea {
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+        textarea {
+            resize: vertical;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            color: white;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<main>
+    <h1>Publier une Offre d'Emploi</h1>
+    <form method="post" action="{% url 'publier_offre' %}">
+        {% csrf_token %}
+        <label for="titre">Titre de l'offre</label>
+        <input type="text" id="titre" name="titre" placeholder="Exemple : Comptable" required>
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="6" placeholder="Détails de l'offre d'emploi" required></textarea>
+
+        <label for="date_publication">Date de publication</label>
+        <input type="date" id="date_publication" name="date_publication" required>
+
+        <button type="submit">Publier</button>
+    </form>
+</main>
+
+</body>
+</html>

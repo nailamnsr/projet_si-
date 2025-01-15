@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Candidat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        main {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 40px;
+        }
+        .button-group a {
+            display: inline-block;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            background-color: #28a745;
+            border-radius: 5px;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+        .button-group a:hover {
+            background-color: #218838;
+        }
+        .offre {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+        .offre h3 {
+            margin: 0 0 10px 0;
+            color: #007bff;
+        }
+        .offre p {
+            margin: 0 0 10px 0;
+            color: #6c757d;
+        }
+        .offre a {
+            display: inline-block;
+            padding: 8px 15px;
+            color: white;
+            text-decoration: none;
+            background-color: #007bff;
+            border-radius: 5px;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+        }
+        .offre a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Espace Candidat</h1>
+</header>
+
+<main>
+    <div class="button-group">
+        <a href="{% url 'mes_candidatures' %}">Mes Candidatures</a>
+        <a href="{% url 'mes_entretiens' %}">Mes Entretiens</a>
+    </div>
+
+    <h2>Offres d'emploi disponibles</h2>
+
+    {% for offre in offres %}
+    <div class="offre">
+        <h3>{{ offre.titre }}</h3>
+        <p>{{ offre.description }}</p>
+        <p><small>Publié le : {{ offre.date_publication|date:"d/m/Y" }}</small></p>
+        <a href="{% url 'postuler' offre.id %}">Postuler</a>
+    </div>
+    {% empty %}
+    <p>Aucune offre d'emploi disponible pour le moment.</p>
+    {% endfor %}
+</main>
+
+</body>
+</html>

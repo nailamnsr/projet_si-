@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Employés</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #343a40;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .search-bar {
+            margin-bottom: 20px;
+        }
+        .search-bar input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+        .search-bar button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .search-bar button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table th, table td {
+            text-align: left;
+            padding: 10px;
+            border: 1px solid #dee2e6;
+        }
+        table th {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+        table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .options a {
+            margin-right: 10px;
+            padding: 5px 10px;
+            color: #ffffff;
+            background-color: #28a745;
+            border-radius: 4px;
+        }
+        .options a.delete {
+            background-color: #dc3545;
+        }
+        .options a:hover {
+            opacity: 0.8;
+        }
+        .add-employee {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            color: #ffffff;
+            background-color: #28a745;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .add-employee:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestion des Employés</h1>
+
+        <!-- Lien pour ajouter un employé -->
+        <a href="{% url 'employe_create' %}" class="add-employee">Ajouter un Employé</a>
+
+        <!-- Barre de recherche -->
+        <div class="search-bar">
+            <form method="GET" action="">
+                <input type="text" name="q" placeholder="Rechercher un employé..." value="{{ query }}">
+                <button type="submit">Rechercher</button>
+            </form>
+        </div>
+
+        <!-- Liste des employés -->
+        <h2>Liste des Employés</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employe in employes %}
+                <tr>
+                    <td>{{ employe.code }}</td>
+                    <td>{{ employe.nom }}</td>
+                    <td>{{ employe.prenom }}</td>
+                    <td class="options">
+                        <a href="{% url 'employe_update' employe.pk %}">Modifier</a>
+                        <a href="{% url 'employe_delete' employe.pk %}" class="delete">Supprimer</a>
+                        <a href="{% url 'fiche_employe' employe.pk %}">Fiche Employé</a>
+                        <a href="{% url 'ajouter_conge' employe.pk %}">Ajouter Congé</a>
+                        <a href="{% url 'marquer_absence' pk=employe.pk %}">Marquer Absence</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">Aucun employé trouvé.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

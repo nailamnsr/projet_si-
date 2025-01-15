@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - Choix du Rôle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .btn {
+            display: inline-block;
+            margin: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn-manager {
+            background-color: #007bff;
+        }
+        .btn-agent-rh {
+            background-color: #28a745;
+        }
+        .btn-condidat{
+            background-color: aqua;
+        }
+        .btn:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bienvenue</h1>
+    <p>etes vous ? :</p>
+    <a href="{% url 'redirect_to_role' 'manager' %}" class="btn btn-manager">Manager</a>
+    <a href="{% url 'redirect_to_role' 'agent_rh' %}" class="btn btn-agent-rh">Agent RH</a>
+    <a href="{% url 'redirect_to_role' 'candidat' %}" class="btn btn-condidat">candidat</a>
+    
+</body>
+</html>

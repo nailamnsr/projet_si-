@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Contrats</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #0056b3;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        main {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .search-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .search-bar input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        .search-bar button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .search-bar button:hover {
+            background-color: #0056b3;
+        }
+        a.add-contract {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            color: white;
+            background-color: #28a745;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        a.add-contract:hover {
+            background-color: #218838;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table th, table td {
+            text-align: left;
+            padding: 10px;
+            border: 1px solid #dee2e6;
+        }
+        table th {
+            background-color: #007bff;
+            color: white;
+        }
+        table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .options a {
+            margin-right: 10px;
+            padding: 5px 10px;
+            color: white;
+            background-color: #ffc107;
+            border-radius: 4px;
+        }
+        .options a.delete {
+            background-color: #dc3545;
+        }
+        .options a:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Gestion des Contrats</h1>
+</header>
+
+<main>
+    <!-- Lien pour ajouter un contrat -->
+    <a href="{% url 'contract_create' %}" class="add-contract">Ajouter un Contrat</a>
+
+    <!-- Barre de recherche -->
+    <div class="search-bar">
+        <form method="GET" action="">
+            <input type="text" name="q" placeholder="Rechercher un contrat par code, employé ou type de salaire..." value="{{ query }}">
+            <button type="submit">Rechercher</button>
+        </form>
+    </div>
+
+    <!-- Liste des contrats -->
+    <h2>Liste des Contrats</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Code du Contrat</th>
+                <th>Date Début</th>
+                <th>Date Fin</th>
+                <th>Type de Salaire</th>
+                <th>Montant Salaire</th>
+                <th>Employé</th>
+                <th>Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contract in contracts %}
+            <tr>
+                <td>{{ contract.code_contrat }}</td>
+                <td>{{ contract.date_debut_contrat }}</td>
+                <td>{{ contract.date_fin_contrat }}</td>
+                <td>{{ contract.type_salaire }}</td>
+                <td>{{ contract.montant_salaire }}</td>
+                <td>{{ contract.id_employe }}</td>
+                <td class="options">
+                    <a href="{% url 'contract_update' contract.pk %}">Modifier</a>
+                    <a href="{% url 'contract_delete' contract.pk %}" class="delete">Supprimer</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">Aucun contrat trouvé.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+
+<footer>
+    <p style="text-align: center; margin-top: 40px; color: #6c757d;">&copy; 2025 Votre Entreprise - Tous droits réservés.</p>
+</footer>
+
+</body>
+</html>

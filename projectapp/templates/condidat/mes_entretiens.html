@@ -1,0 +1,9 @@
+<h1>Mes Entretiens</h1>
+{% for entretien in entretiens %}
+    <p>Offre : {{ entretien.candidature.offre.titre }}</p>
+    <p>Date : {{ entretien.date }}</p>
+    <p>Lieu : {{ entretien.lieu }}</p>
+    <p>Nom du Candidat : {{ entretien.candidature.candidat.username }}</p>
+    <p>Remarques : {{ entretien.remarques }}</p>
+{% endfor %}
+

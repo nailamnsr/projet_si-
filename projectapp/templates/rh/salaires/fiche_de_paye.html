@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiche de Paie</title>
+</head>
+<body>
+    <h1>Fiche de Paie de {{ employe.nom }} {{ employe.prenom }}</h1>
+    <p><strong>Salaire de base:</strong> {{ salaire_base }} €</p>
+    <p><strong>Primes:</strong> {{ primes }} €</p>
+    <p><strong>Deductions pour absences:</strong> {{ deductions_absences }} €</p>
+    <p><strong>Avances MASSROUF:</strong> {{ total_massrouf }} €</p>
+    <h2>Salaire Total: {{ salaire_total }} €</h2>
+    <p><strong>Date de paiement:</strong> {{ date_paiement }}</p>
+</body>
+</html>

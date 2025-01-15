@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programmer un Entretien</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        main {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #343a40;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        label {
+            font-weight: bold;
+            color: #343a40;
+        }
+        input, select {
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<main>
+    <h1>Programmer un Entretien</h1>
+    <form method="post" action="{% url 'programmer_entretien' %}">
+        {% csrf_token %}
+        <label for="candidat">Candidat</label>
+        <select name="candidat" id="candidat" required>
+            {% for candidature in candidatures %}
+            <option value="{{ candidature.id }}">{{ candidature.nom }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="date">Date de l'entretien</label>
+        <input type="date" id="date" name="date" required>
+
+        <label for="heure">Heure de l'entretien</label>
+        <input type="time" id="heure" name="heure" required>
+
+        <label for="lieu">Lieu</label>
+        <input type="text" id="lieu" name="lieu" placeholder="Exemple : Bureau RH" required>
+
+        <button type="submit">Programmer</button>
+    </form>
+</main>
+
+</body>
+</html>

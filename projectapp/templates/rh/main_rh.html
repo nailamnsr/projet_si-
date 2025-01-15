@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenue</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #3d73ac;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        main {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        main h1 {
+            margin-bottom: 20px;
+            color: #343a40;
+        }
+        .links {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .links a {
+            display: inline-block;
+            width: 60%;
+            padding: 15px 20px;
+            font-size: 1.2em;
+            color: white;
+            text-decoration: none;
+            background-color: #4773a2;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        .links a:hover {
+            background-color: #4f88c4;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Bienvenue</h1>
+</header>
+
+<main>
+    <h1>Choisissez une option</h1>
+    <div class="links">
+        <a href="{% url 'gestion_employe' %}">Gestion des Employés</a>
+        <a href="{% url 'gestion_service' %}">Gestion des Services</a>
+        <a href="{% url 'gestion_contrat' %}">Gestion des Contrats</a>
+        <a href="{% url 'gestion_recrutement' %}">Gestion des Recrutements</a>
+      
+        <a href="{% url 'analyse_tableaux' %}">Tableaux et graphique</a>
+        
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2025 Votre Entreprise - Tous droits réservés.</p>
+</footer>
+
+</body>
+</html>
+

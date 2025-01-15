@@ -1,0 +1,4 @@
+<h1>Mes Candidatures</h1>
+{% for candidature in candidatures %}
+    <p>{{ candidature.offre.titre }} - Statut : {{ candidature.get_status_display }}</p>
+{% endfor %}

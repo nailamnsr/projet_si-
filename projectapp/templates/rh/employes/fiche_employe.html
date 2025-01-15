@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiche Employé</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            padding: 20px;
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #555;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        a {
+            display: block;
+            width: 200px;
+            text-align: center;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            margin: 30px auto;
+            border-radius: 5px;
+        }
+
+        a:hover {
+            background-color: #45a049;
+        }
+
+        .absence-list, .conge-list {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+
+        .absence-list li, .conge-list li {
+            padding: 5px;
+        }
+
+        /* Spécifier la largeur pour les colonnes demandées */
+        td.historique, td.competences, td.formations {
+            width: 20%;
+        }
+
+        /* Ajuster la largeur des autres colonnes si nécessaire */
+        td.solde-conge, td.nb-absences, td.solde-conge-second {
+            width: 10%;
+        }
+
+        td.dates-absence, td.conges-pris, td.jours-restants {
+            width: 15%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fiche Employé</h1>
+    <table>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Date de Naissance</th>
+            <th>Adresse</th>
+            <th class="historique">Historique Professionnel</th>
+            <th class="competences">Compétences</th>
+            <th class="formations">Formations</th>
+            <th>Solde Congé</th>
+            <th>Nombre d'Absences</th>
+            <th>Solde Congé</th>
+            <th>Dates d'Absence</th>
+            <th>Congés Pris</th>
+            <th>Jours Restants</th>
+        </tr>
+        <tr>
+            <td>{{ employe.nom }}</td>
+            <td>{{ employe.prenom }}</td>
+            <td>{{ employe.date_naissance }}</td>
+            <td>{{ employe.adresse }}</td>
+            <td class="historique">{{ employe.historique_professionnel }}</td>
+            <td class="competences">{{ employe.competences }}</td>
+            <td class="formations">{{ employe.formations }}</td>
+            <td>{{ employe.solde_conge }}</td>
+            <td>{{ employe.nb_absence }}</td>
+            <td>{{ employe.solde_conge }}</td>
+
+            <td class="dates-absence">
+                <ul class="absence-list">
+                    {% for absence in absences %}
+                        <li>{{ absence.date_absence }}</li>
+                    {% empty %}
+                        <li>Aucune absence enregistrée</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td class="conges-pris">
+                <ul class="conge-list">
+                    {% for conge in conge_data %}
+                        <li>{{ conge.conge.code_conge }} - {{ conge.conge.get_type_conge_display }} : {{ conge.conge.get_nombre_jours }} jours</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td class="jours-restants">
+                <ul class="conge-list">
+                    {% for conge in conge_data %}
+                        <li>{{ conge.jours_restants }} jours restants</li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+    </table>
+    <a href="{% url 'gestion_employe' %}">Retour</a>
+</body>
+</html>
+

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Marquer Absence</title>
+</head>
+<body>
+    <h1>Marquer une Absence</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Enregistrer</button>
+    </form>
+    <a href="{% url 'fiche_employe' employe.pk %}">Retour à la Fiche Employé</a>
+</body>
+</html>

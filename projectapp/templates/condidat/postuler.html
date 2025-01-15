@@ -1,0 +1,11 @@
+
+<body>
+    <h1>Postuler pour: {{ offre.titre }}</h1>
+    <p>Description: {{ offre.description }}</p>
+    <p>Publié par: {{ offre.recruteur.username }}</p>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Envoyer ma candidature</button>
+</form>
+</body>

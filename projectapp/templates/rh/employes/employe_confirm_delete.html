@@ -1,0 +1,7 @@
+<h1>Confirmer la Suppression</h1>
+<p>Êtes-vous sûr de vouloir supprimer {{ employe.nom }} {{ employe.prenom }} ?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Oui, supprimer</button>
+    <a href="{% url 'gestion_employe' %}">Annuler</a>
+</form>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Recrutements</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 4px solid #0056b3;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        main h2 {
+            color: #007bff;
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+
+        p {
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 15px 0;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gestion des Recrutements</h1>
+    </header>
+
+    <main>
+        <h2>Publication des Offres</h2>
+        <a href="{% url 'publier_offre' %}">Publier une offre d'emploi</a>
+        {% for offre in offres %}
+            <p><strong>{{ offre.titre }}</strong><br>{{ offre.description }}</p>
+        {% endfor %}
+
+        <h2>Suivi des Candidatures</h2>
+        {% for candidature in candidatures %}
+            <p><strong>Nom :</strong> {{ candidature.candidat.username }}<br>
+            <strong>Status :</strong> {{ candidature.status }}</p>
+            <a href="{% url 'programmer_entretien' %}">Programmer entretien</a>
+        {% endfor %}
+
+        <h2>Gestion des Entretiens</h2>
+        {% for entretien in entretiens %}
+            <p><strong>Date :</strong> {{ entretien.date }}<br>
+            <strong>Candidat :</strong> {{ entretien.candidat.username }}<br>
+            <strong>Offre :</strong> {{ entretien.candidature.offre.titre }}</p>
+        {% empty %}
+            <p>Aucun entretien enregistré.</p>
+        {% endfor %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Votre Entreprise - Tous droits réservés.</p>
+    </footer>
+</body>
+</html>
+

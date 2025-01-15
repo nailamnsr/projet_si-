@@ -1,0 +1,35 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Évaluation Employé</title>
+</head>
+<body>
+    <h1>Évaluation Employé</h1>
+    <a href="{% url 'evaluation_create' %}">Ajouter une Évaluation</a>
+    <a href="{% url 'home' %}">retour</a>
+    <table border="1">
+        <tr>
+            <th>Employé</th>
+            <th>Date d'Évaluation</th>
+            <th>Objectifs Atteints</th>
+            <th>Compétences Développées</th>
+            <th>Note de performance</th>
+            <th>Actions</th>
+        </tr>
+        {% for evaluation in evaluations %}
+        <tr>
+            <td>{{ evaluation.id_employe }}</td>
+            <td>{{ evaluation.date_evaluation }}</td>
+            <td>{{ evaluation.objecttifs }}</td>
+            <td>{{ evaluation.competances }}</td>
+            <td>{{ evaluation.performance_globale }}</td>
+            <td>
+                <a href="{% url 'evaluation_update' evaluation.pk %}">Modifier</a>
+                <a href="{% url 'evaluation_delete' evaluation.pk %}">Supprimer</a>
+                <a href="{% url 'generate_report_for_evaluation' evaluation.pk %}">Générer le Rapport</a> 
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

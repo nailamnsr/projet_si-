@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmer la suppression</title>
+</head>
+<body>
+    <h1>Êtes-vous sûr de vouloir supprimer cette évaluation ?</h1>
+    <p>Employé : {{ evaluation.id_employe }}</p>
+    <p>Date d'Évaluation : {{ evaluation.date_evaluation }}</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Supprimer</button>
+        <a href="{% url 'evaluation_employe' %}">Annuler</a>
+    </form>
+</body>
+</html>
