@@ -2,11 +2,14 @@ from django.urls import path
 from . import views
 urlpatterns = [
     #main path 
-    path('', views.home, name='home'),  
-    path('redirect/<str:role>/', views.redirect_to_role, name='redirect_to_role'),
-    path('agentrh/', views.main_rh, name='main_rh'),  
-    path('manager/', views.evaluation_employe, name='evaluation_employe'),  
-   #rh's paths 
+    path('', views.home, name='home'),  # Page d'accueil
+    path('redirect/<str:role>/', views.redirect_to_role, name='redirect_to_role'),  # Redirection en fonction du rôle
+    path('login/manager/', views.login_manager, name='login_manager'),  # Connexion Manager
+    path('login/agent_rh/', views.login_agent_rh, name='login_agent_rh'),  # Connexion Agent RH
+    path('login/candidat/', views.login_candidat, name='login_candidat'),  # Connexion Candidat
+    path('manager/', views.evaluation_employe, name='evaluation_employe'),  # Évaluation Manager 
+    path('agenrh/',views.main_rh ,name='main_rh'),
+  
     path('agentrh/gestion_employe/',views.gestion_employe,name='gestion_employe'),
     path('agentrh/gestion_service/',views.gestion_service,name='gestion_service'),
     path('agentrh/gestion_contrat/',views.gestion_contrat,name='gestion_contrat'),

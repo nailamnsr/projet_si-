@@ -13,13 +13,54 @@ from django.template.loader import render_to_string
 # Create your views here.
 def redirect_to_role(request, role):
     if role == 'manager':
-        return redirect('evaluation_employe')  # Redirige vers la page d'évaluation des employés
+        return redirect('login_manager')  # Redirige vers la page d'évaluation des employés
     elif role == 'agent_rh':
-        return redirect('main_rh')  # Redirige vers la liste des employés
+        return redirect('login_agent_rh')  # Redirige vers la liste des employés
     elif role == 'candidat':
-        return redirect('candidat_home')  # Redirige vers la page des offres d'emploi pour le candidat
+        return redirect('login_candidat')  # Redirige vers la page des offres d'emploi pour le candidat
     else:
-        return redirect('home')  # Rediriger vers l'accueil si le rôle est invalide
+        return redirect('home')  # Rediriger vers l'accueil si le rôle est invalide 
+#authentification    
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+
+def login_manager(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None and user.groups.filter(name='manager').exists():
+            login(request, user)
+            return redirect('evaluation_employe') # Redirige le manager
+        else:
+            messages.error(request, 'Identifiants invalides ou vous n\'êtes pas un manager.')
+    return render(request, 'auth/login_manager.html')
+from django.views.decorators.csrf import csrf_protect
+
+
+def login_agent_rh(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None and user.groups.filter(name='agent rh').exists():
+            login(request, user)
+            return redirect('main_rh')  # Redirige l'agent RH
+        else:
+            messages.error(request, 'Identifiants invalides ou vous n\'êtes pas un agent RH.')
+    return render(request, 'auth/login_agent_rh.html')
+
+def login_candidat(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None and user.groups.filter(name='candidat').exists():
+            login(request, user)
+            return redirect('candidat_home')  # Redirige le candidat
+        else:
+            messages.error(request, 'Identifiants invalides ou vous n\'êtes pas un candidat.')
+    return render(request, 'auth/login_candidat.html')
 def home(request):
     return render(request, 'home.html')
     

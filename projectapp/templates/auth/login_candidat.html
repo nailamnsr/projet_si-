@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Connexion Candidat</title>
+</head>
+<body>
+    <h2>Connexion Candidat</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="username">Nom d'utilisateur :</label>
+        <input type="text" name="username" id="username" required><br>
+        <label for="password">Mot de passe :</label>
+        <input type="password" name="password" id="password" required><br>
+        <button type="submit">Se connecter</button>
+    </form>
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li style="color:red;">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
