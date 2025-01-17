@@ -417,7 +417,7 @@ def calculer_salaire(request):
 
     return render(request, 'rh/salaires/calculer_salaire.html', {'form': form})
 
-'''def fiche_de_paye(request, salaire_id):
+def fiche_de_paye(request, salaire_id):
     # Récupérer l'objet Salaire
     salaire = get_object_or_404(Salaire, id=salaire_id)
 

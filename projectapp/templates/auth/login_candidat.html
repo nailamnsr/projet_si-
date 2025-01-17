@@ -1,24 +1,122 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Connexion Candidat</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion candidat</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #4e73df, #1cc88a);
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      width: 400px;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #4e73df;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      margin-bottom: 1rem;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #4e73df;
+      box-shadow: 0 0 3px rgba(78, 115, 223, 0.5);
+    }
+
+    button {
+      background: #4e73df;
+      color: #fff;
+      padding: 0.8rem;
+      width: 100%;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background: #375a7f;
+      transform: scale(1.05);
+    }
+
+    .auth-link {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .auth-link a {
+      color: #1cc88a;
+      text-decoration: none;
+    }
+
+    .auth-link a:hover {
+      text-decoration: underline;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul li {
+      color: red;
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
     <h2>Connexion Candidat</h2>
     <form method="POST">
-        {% csrf_token %}
-        <label for="username">Nom d'utilisateur :</label>
-        <input type="text" name="username" id="username" required><br>
-        <label for="password">Mot de passe :</label>
-        <input type="password" name="password" id="password" required><br>
-        <button type="submit">Se connecter</button>
+      {% csrf_token %}
+      <label for="username">Nom d'utilisateur :</label>
+      <input type="text" name="username" id="username" required>
+      <label for="password">Mot de passe :</label>
+      <input type="password" name="password" id="password" required>
+      <button type="submit">Se connecter</button>
     </form>
     {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li style="color:red;">{{ message }}</li>
-            {% endfor %}
-        </ul>
+      <ul>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
     {% endif %}
+  </div>
 </body>
 </html>
