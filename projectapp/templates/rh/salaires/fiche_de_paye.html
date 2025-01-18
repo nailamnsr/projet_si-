@@ -3,15 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fiche de Paie</title>
+    <title>Fiche de Paye - {{ employe.nom }}</title>
 </head>
 <body>
-    <h1>Fiche de Paie de {{ employe.nom }} {{ employe.prenom }}</h1>
-    <p><strong>Salaire de base:</strong> {{ salaire_base }} €</p>
-    <p><strong>Primes:</strong> {{ primes }} €</p>
-    <p><strong>Deductions pour absences:</strong> {{ deductions_absences }} €</p>
-    <p><strong>Avances MASSROUF:</strong> {{ total_massrouf }} €</p>
-    <h2>Salaire Total: {{ salaire_total }} €</h2>
-    <p><strong>Date de paiement:</strong> {{ date_paiement }}</p>
+    <h1>Fiche de Paye pour {{ employe.nom }}</h1>
+
+    <div>
+        <p><strong>ID Employé:</strong> {{ employe.id }}</p>
+        <p><strong>Nom:</strong> {{ employe.nom }}</p>
+        <p><strong>Prénom:</strong> {{ employe.prenom }}</p>
+        <p><strong>Service:</strong> {{ employe.id_service }}</p>
+        <p><strong>Nombre d'absence:</strong> {{ employe.nb_absence }}</p>
+        
+    </div>
+
+    <h2>Détails du Salaire</h2>
+    <div>
+        <p><strong>Salaire de base:</strong> {{ salaire.salaire_base }} DA</p>
+        <p><strong>Salaire quotidien:</strong> {{ salaire.salaire_quot }} DA</p>
+        <p><strong>Primes:</strong> {{ salaire.primes }} dinars</p>
+        <p><strong>Salaire total:</strong> {{ salaire.salaire_total }} DA</p>
+        <p><strong>Date de paiement:</strong> {{ salaire.date_paiement }}</p>
+        <p><strong> Nombre de demande de Massrouf:</strong> {{ salaire.nbr_massrouf }}fois</p>
+       
+    </div>
+
+    <div>
+        <a href="{% url 'ajouter_salaire' pk=employe.id %}">Retour à la page d'ajout de salaire</a>
+    </div>
 </body>
 </html>

@@ -125,9 +125,6 @@
                 <th>Code du Contrat</th>
                 <th>Date Début</th>
                 <th>Date Fin</th>
-                <th>Type de Salaire</th>
-                <th>Montant Salaire</th>
-                <th>Employé</th>
                 <th>Options</th>
             </tr>
         </thead>
@@ -137,11 +134,10 @@
                 <td>{{ contract.code_contrat }}</td>
                 <td>{{ contract.date_debut_contrat }}</td>
                 <td>{{ contract.date_fin_contrat }}</td>
-                <td>{{ contract.type_salaire }}</td>
-                <td>{{ contract.montant_salaire }}</td>
-                <td>{{ contract.id_employe }}</td>
+               
                 <td class="options">
                     <a href="{% url 'contract_update' contract.pk %}">Modifier</a>
+                    <a href="{% url 'afficher_contrat' contract.pk %}">afficher contrat</a>
                     <a href="{% url 'contract_delete' contract.pk %}" class="delete">Supprimer</a>
                 </td>
             </tr>

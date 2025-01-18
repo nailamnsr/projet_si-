@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter Salaire</title>
+</head>
+<body>
+    <h1>Ajouter Salaire pour {{ employe.nom }} {{ employe.prenom }}</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- Ou utilisez des balises de champ explicitement -->
+        
+        <button type="submit">Enregistrer Salaire</button>
+    </form>
+
+    <a href="{% url 'afficher_fiche_de_paye' pk=employe.pk %}">Voir la fiche de paye</a>
+</body>
+</html>
+

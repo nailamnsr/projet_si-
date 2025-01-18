@@ -28,6 +28,7 @@ class Employe(models.Model):
     solde_conge = models.PositiveIntegerField(default=0)
     droits_conge = models.PositiveIntegerField(default=0)
     nb_absence = models.PositiveIntegerField(default=0)  # Compteur d'absences
+    nb_massrouf=models.PositiveIntegerField(default=0)
     sexe=models.CharField(max_length=10,choices=CHOICE_SEXE)
     def incrementer_absence(self):
         """Méthode pour incrémenter le nombre d'absences."""
@@ -117,27 +118,6 @@ class Absence(models.Model):
     def __str__(self):
         return f"Absence de {self.employe.nom} {self.employe.prenom} le {self.date_absence}"
       
-class Massrouf(models.Model):
-    employe = models.ForeignKey(Employe, on_delete=models.CASCADE)
-    date_demande = models.DateField()
-    montant = models.DecimalField(max_digits=10, decimal_places=2)
-    justification = models.TextField()
-    approuve = models.BooleanField(default=False)
-    
-    def clean(self):
-        """Limiter à deux demandes MASSROUF par an."""
-        debut_annee = timezone.now().date().replace(month=1, day=1)
-        fin_annee = debut_annee.replace(month=12, day=31)
-        demandes_count = Massrouf.objects.filter(
-            employe=self.employe,
-            date_demande__range=(debut_annee, fin_annee)
-        ).count()
-        
-        if demandes_count >= 2:
-            raise ValidationError("Maximum de 2 avances MASSROUF par an atteint.")
-
-    def __str__(self):
-        return f"Avance MASSROUF de {self.employe.nom} {self.employe.prenom} du {self.date_demande}"
 
 
 class Salaire(models.Model):
@@ -147,7 +127,7 @@ class Salaire(models.Model):
     primes = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     date_paiement = models.DateField()
     salaire_total = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
-
+    nbr_massrouf=models.PositiveIntegerField(default=0)
     def calculer_deductions_absences(self, mois, annee):
         """Calculer les déductions liées aux absences."""
         absences_count = self.employe.absences.filter(

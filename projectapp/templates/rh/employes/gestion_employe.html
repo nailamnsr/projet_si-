@@ -132,6 +132,8 @@
                         <a href="{% url 'fiche_employe' employe.pk %}">Fiche Employé</a>
                         <a href="{% url 'ajouter_conge' employe.pk %}">Ajouter Congé</a>
                         <a href="{% url 'marquer_absence' pk=employe.pk %}">Marquer Absence</a>
+                        <a href="{% url 'ajouter_salaire' pk=employe.pk %}"> salaire </a>
+                        <a href="{% url 'afficher_fiche_de_paye' pk=employe.pk %}"> fiche de paye  </a>
                     </td>
                 </tr>
                 {% empty %}

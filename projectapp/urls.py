@@ -23,6 +23,8 @@ urlpatterns = [
     path('<int:pk>/ficheemploye/', views.fiche_employe, name='fiche_employe'),
     path('<int:pk>/ajouterconge/', views.ajouter_conge, name='ajouter_conge'),
     path('<int:pk>/marquer-absence/', views.marquer_absence, name='marquer_absence'),
+    path('<int:pk>/calculer-salaire/', views.ajouter_salaire, name='ajouter_salaire'),
+    path('<int:pk>/fiche-de-paye', views.afficher_fiche_de_paye, name='afficher_fiche_de_paye'),
     #service
     path('newservice/', views.service_create, name='service_create'),
     path('<int:pk>/editservice/', views.service_update, name='service_update'),
@@ -31,7 +33,7 @@ urlpatterns = [
     path('newcontract/', views.contract_create, name='contract_create'),
     path('<int:pk>/editcontract/', views.contract_update, name='contract_update'),
     path('<int:pk>/deletecontract/', views.contract_delete, name='contract_delete'), 
-
+    path('<int:pk>/affichercontrat/', views.afficher_contrat, name='afficher_contrat'), 
     #manager's paths 
     path('manager/evaluation/create/', views.evaluation_create, name='evaluation_create'),
     path('manager/evaluation/update/<int:pk>/', views.evaluation_update, name='evaluation_update'),

@@ -33,7 +33,7 @@ class AbsenceForm(forms.ModelForm):
 class SalaireForm(forms.ModelForm):
     class Meta:
         model = Salaire
-        fields = ['employe', 'salaire_base', 'primes', 'date_paiement']
+        fields = ['employe', 'salaire_base', 'primes', 'date_paiement','nbr_massrouf']
 
     def clean(self):
         cleaned_data = super().clean()

@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .models import Employe,Service,Conge,Contract,Evaluation,Salaire,OffreEmploi,Candidature,Entretien
+from .models import Employe,Service,Conge,Contract,Evaluation,Salaire,OffreEmploi,Candidature,Entretien,Absence
 from .forms import EmployeForm,serviceForm,congeForm,ContractForm,EvaluationForm,AbsenceForm,SalaireForm,OffreEmploiForm,CandidatureForm,EntretienForm
 from django.db.models import Q
 from datetime import timedelta,date
@@ -8,7 +8,7 @@ import csv
 import tempfile
 from django.http import HttpResponse
 from django.template.loader import render_to_string
-#from weasyprint import HTML
+ 
 
 # Create your views here.
 def redirect_to_role(request, role):
@@ -136,9 +136,7 @@ def employe_delete(request, pk):
     return render(request, 'rh/employes/employe_confirm_delete.html', {'employe': employe})
 
 # etablir une fiche demploye
-def fiche_employe(request,pk):
-    employe = get_object_or_404(Employe, pk=pk)
-    return render(request, 'rh/employes/fiche_employe.html', {'employe': employe})
+
 #ajouter conge
 def ajouter_conge(request, pk):
     employe = get_object_or_404(Employe, pk=pk)
@@ -167,7 +165,8 @@ def ajouter_conge(request, pk):
 #affichage des conges 
 def fiche_employe(request, pk):
     employe = get_object_or_404(Employe, pk=pk)
-    congés = employe.conge_set.all()  # Récupérer tous les congés de l'employé
+    congés = employe.conge_set.all()
+    absences = Absence.objects.filter(employe=employe) # Récupérer tous les congés de l'employé
 
     # Créer une liste de dictionnaires contenant les informations nécessaires
     conge_data = []
@@ -181,18 +180,10 @@ def fiche_employe(request, pk):
     
     return render(request, 'rh/employes/fiche_employe.html', {
         'employe': employe,
+        'absences':absences,
         'conge_data': conge_data,
     })
-#marquer des abcense 
-def marquer_absence(request, pk):
-    employe = get_object_or_404(Employe, pk=pk)
 
-    if request.method == "POST":
-        # Incrémenter le nombre d'absences
-        employe.incrementer_absence()
-        return redirect('fiche_employe', pk=employe.pk)  # Rediriger vers la fiche de l'employé après l'ajout de l'absence
-
-    return render(request, 'rh/employes/marquer_absence.html', {'employe': employe})
 #evaluation des employes 
 def evaluation_employe(request):
     evaluations = Evaluation.objects.all()
@@ -294,16 +285,16 @@ def gestion_contrat(request):
 
     if query:
         # Filtre les contrats selon la recherche (code_contrat)
-        contrats = Contract.objects.filter(
+        contracts = Contract.objects.filter(
             Q(code_contrat__icontains=query)
         )
     else:
         # Si pas de recherche, récupère tous les contrats
-        contrats = Contract.objects.all()
+        contracts = Contract.objects.all()
 
     # Contexte pour la vue
     context = {
-        'contrats': contrats,
+        'contracts': contracts,
         'query': query,  # Inclure la recherche pour l'interface utilisateur
     }
 
@@ -313,12 +304,17 @@ def gestion_contrat(request):
 def contract_create(request):
     if request.method == "POST":
         form = ContractForm(request.POST)
+        print(request.POST)  # Vérifiez ici les données soumises
         if form.is_valid():
             form.save()
-            return redirect('gestion_contrat')  # Redirection vers la liste des employés
+            print("Formulaire valide et contrat enregistré")  # Vérification supplémentaire
+            return redirect('gestion_contrat')  # Redirection après enregistrement
+        else:
+            print("Formulaire non valide : ", form.errors)  # Affiche les erreurs de validation
     else:
         form = ContractForm()
-    return render(request, 'rh/contrats/contrat_form.html', {'form':form})
+    return render(request, 'rh/contrats/contrat_form.html', {'form': form})
+
 
 # Modifier un contrat
 def contract_update(request, pk):
@@ -339,11 +335,16 @@ def contract_delete(request, pk):
         contrat.delete()
         return redirect('gestion_contrat')  # Redirection après suppression
     return render(request, 'rh/contrats/contrat_confirm_delete.html', {'contrat': contrat})
-
+#afficher les deatils d'un contrat 
+def afficher_contrat(request, pk):
+    # Récupérer le contrat correspondant à la clé primaire pk
+    contract = get_object_or_404(Contract, pk=pk)
+    return render(request, 'rh/contrats/afficher_contrat.html', {'contract': contract})
 
 
 def marquer_absence(request, pk):
     employe = get_object_or_404(Employe, pk=pk)
+    absence=Absence.objects.filter(employe=employe)
 
     if request.method == "POST":
         form = AbsenceForm(request.POST)
@@ -356,7 +357,7 @@ def marquer_absence(request, pk):
     else:
         form = AbsenceForm()
 
-    return render(request, 'rh/employes/marquer_absence.html', {'form': form, 'employe': employe})
+    return render(request, 'rh/employes/marquer_absence.html', {'form': form, 'employe': employe,'absence':absence})
 
 def analyse_tableaux(request):
     # Effectifs Totaux
@@ -383,71 +384,9 @@ def analyse_tableaux(request):
     return render(request, 'rh/employes/analyse_tableaux.html', context)
 
 
-def calculer_salaire(request):
-    if request.method == 'POST':
-        form = SalaireForm(request.POST)
-        if form.is_valid():
-            salaire = form.save(commit=False)
-            salaire.save()  # Sauvegarde du salaire calculé
-            
-            # Calcul du salaire total selon la formule
-            mois = salaire.date_paiement.month
-            annee = salaire.date_paiement.year
-            salaire.calculer_deductions_absences(mois, annee)
-            salaire.calculer_massrouf(mois, annee)
-            salaire.save()
-            
-            # Récupérer la fiche de paie
-            context = {
-                'employe': salaire.employe,
-                'salaire_total': salaire.salaire_total,
-                'date_paiement': salaire.date_paiement,
-                'salaire_base': salaire.salaire_base,
-                'primes': salaire.primes,
-                'deductions_absences': salaire.calculer_deductions_absences(mois, annee),
-                'total_massrouf': salaire.calculer_massrouf(mois, annee)
-            }
-            html = render_to_string('fiche_de_paye.html', context)
-            response = HttpResponse(html)
-            response['Content-Type'] = 'application/pdf'
-            response['Content-Disposition'] = 'attachment; filename="fiche_de_paye.pdf"'
-            return response
-    else:
-        form = SalaireForm()
 
-    return render(request, 'rh/salaires/calculer_salaire.html', {'form': form})
 
-def fiche_de_paye(request, salaire_id):
-    # Récupérer l'objet Salaire
-    salaire = get_object_or_404(Salaire, id=salaire_id)
 
-    # Contexte pour la fiche de paie
-    context = {
-        'employe': salaire.employe,
-        'salaire_base': salaire.salaire_base,
-        'primes': salaire.primes,
-        'date_paiement': salaire.date_paiement,
-        'salaire_total': salaire.salaire_total,
-        'deductions_absences': salaire.calculer_deductions_absences(
-            salaire.date_paiement.month, salaire.date_paiement.year),
-        'total_massrouf': salaire.calculer_massrouf(
-            salaire.date_paiement.month, salaire.date_paiement.year),
-    }
-
-    # Vérifiez si l'utilisateur demande un PDF
-    if request.GET.get('format') == 'pdf':
-        html_string = render_to_string('fiche_de_paye.html', context)
-       # html = HTML(string=html_string)
-       # result = html.write_pdf()
-
-        # Crée un fichier temporaire pour le PDF
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = f'inline; filename="fiche_de_paye_{salaire.employe.nom}.pdf"'
-        #response.write(result)
-        return response
-
-    # Sinon, afficher la fiche de paie en HTML
-    return render(request, 'rh/salaires/fiche_de_paye.html', context)
 
 
 #cree gestion salaire 
@@ -545,3 +484,62 @@ def gestion_recrutement(request):
         'entretiens': entretiens,
         'offres': offres
     })
+
+def afficher_fiche_de_paye(request, pk):
+    try:
+        employe = Employe.objects.get(pk=pk)  # Get the employee by pk
+        salaire = Salaire.objects.get(employe=employe)  # Try to get the corresponding salary
+    except Employe.DoesNotExist:
+        # If the employee doesn't exist, handle the error
+        messages.error(request, "L'employé avec l'ID donné n'existe pas.")
+        return redirect('employe_non_trouve')  # Redirect to an error page or other route
+    except Salaire.DoesNotExist:
+        # If no salary is found for the employee, handle the error
+        messages.error(request, "Aucune fiche de paye trouvée pour cet employé.")
+        return redirect('ajouter_salaire', pk=pk)  # Redirect to a page where you can add salary for the employee
+
+    # If both employee and salary are found, render the fiche de paye
+    return render(request, 'rh/salaires/fiche_de_paye.html', {
+        'employe': employe,
+        'salaire': salaire
+    })
+
+def ajouter_salaire(request, pk):
+    try:
+        employe = Employe.objects.get(pk=pk)  # Récupérer l'employé avec l'ID fourni
+    except Employe.DoesNotExist:
+        return redirect('employe_non_trouve')  # Gérer l'erreur si l'employé n'existe pas
+
+    if request.method == 'POST':
+        form = SalaireForm(request.POST)
+        if form.is_valid():
+            salaire = form.save(commit=False)
+
+            # Récupérer les valeurs pour les absences et les demandes de massrouf
+            nb_absences = employe.nb_absence  # Assurez-vous que 'nb_absence' est bien défini dans le modèle Employe
+            nbr_massrouf = form.cleaned_data.get('nbr_massrouf', 0)  # Assurez-vous que 'nbr_massrouf' est inclus dans le formulaire
+
+            # Calcul du salaire quotidien
+            salaire_quot = salaire.salaire_base / 30
+
+            # Calcul du salaire total
+            salaire.salaire_quot = salaire_quot
+            salaire.salaire_total = (
+                salaire.salaire_base
+                + salaire.primes
+                - (salaire_quot * nb_absences)  # Déduction des absences
+                - (salaire_quot * nbr_massrouf )  # Déduction des massrouf
+            )
+
+            salaire.employe = employe  # Lier l'employé à ce salaire
+            salaire.save()  # Sauvegarder les informations du salaire
+
+            return redirect('gestion_employe')  # Rediriger après avoir enregistré avec succès
+    else:
+        form = SalaireForm()
+
+    return render(request, 'rh/salaires/ajouter_salaire.html', {
+        'form': form,
+        'employe': employe,  # Passer l'employé à la template pour l'affichage
+    })
+   
