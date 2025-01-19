@@ -136,40 +136,8 @@ class Salaire(models.Model):
         ).count()
         return self.salaire_quot * absences_count
 
-    def calculer_massrouf(self, mois, annee):
-        """Calculer le total des avances MASSROUF pour le mois."""
-        massroufs = Massrouf.objects.filter(
-            employe=self.employe,
-            date_demande__year=annee,
-            date_demande__month=mois,
-            approuve=True
-        )
-        return massroufs.aggregate(total=models.Sum('montant'))['total'] or 0
+   
 
-    def save(self, *args, **kwargs):
-        """Calculer le salaire total."""
-        # Calcul du salaire quotidien
-        self.salaire_quot = self.salaire_base / 30
-        
-        # Récupérer le mois et l'année de la date de paiement
-        mois = self.date_paiement.month
-        annee = self.date_paiement.year
-        
-        # Calculer les déductions pour absences
-        deductions_absences = self.calculer_deductions_absences(mois, annee)
-        
-        # Calculer le total des avances MASSROUF
-        total_massrouf = self.calculer_massrouf(mois, annee)
-        
-        # Calcul du salaire total
-        self.salaire_total = (
-            self.salaire_base -
-            deductions_absences +
-            self.primes -
-            total_massrouf
-        )
-        
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Salaire de {self.employe.nom} {self.employe.prenom} pour le mois de {self.date_paiement}" 

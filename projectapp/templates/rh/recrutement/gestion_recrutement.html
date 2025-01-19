@@ -73,7 +73,7 @@
 
         <h2>Suivi des Candidatures</h2>
         {% for candidature in candidatures %}
-            <p><strong>Nom :</strong> {{ candidature.candidat.username }}<br>
+            <p><strong>Nom :</strong> {{ candidature.nom }} {{ candidature.prenom }}<br>
             <strong>Status :</strong> {{ candidature.status }}</p>
             <a href="{% url 'programmer_entretien' %}">Programmer entretien</a>
         {% endfor %}
@@ -81,7 +81,7 @@
         <h2>Gestion des Entretiens</h2>
         {% for entretien in entretiens %}
             <p><strong>Date :</strong> {{ entretien.date }}<br>
-            <strong>Candidat :</strong> {{ entretien.candidat.username }}<br>
+            <strong>Candidat :</strong> {{ entretien.candidature.nom }} {{ entretien.candidature.prenom }} <br>
             <strong>Offre :</strong> {{ entretien.candidature.offre.titre }}</p>
         {% empty %}
             <p>Aucun entretien enregistré.</p>
@@ -89,7 +89,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2025 Votre Entreprise - Tous droits réservés.</p>
+        <p>&copy;   Tous droits réservés.</p>
     </footer>
 </body>
 </html>

@@ -1,111 +1,228 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Espace Candidat</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #007bff;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2em;
-        }
-        main {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            color: #343a40;
-            margin-bottom: 20px;
-        }
-        .button-group {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 40px;
-        }
-        .button-group a {
-            display: inline-block;
-            padding: 10px 20px;
-            color: white;
-            text-decoration: none;
-            background-color: #28a745;
-            border-radius: 5px;
-            font-size: 1.1em;
-            transition: background-color 0.3s ease;
-        }
-        .button-group a:hover {
-            background-color: #218838;
-        }
-        .offre {
-            margin-bottom: 30px;
-            padding: 15px;
-            border: 1px solid #dee2e6;
-            border-radius: 5px;
-            background-color: #f8f9fa;
-        }
-        .offre h3 {
-            margin: 0 0 10px 0;
-            color: #007bff;
-        }
-        .offre p {
-            margin: 0 0 10px 0;
-            color: #6c757d;
-        }
-        .offre a {
-            display: inline-block;
-            padding: 8px 15px;
-            color: white;
-            text-decoration: none;
-            background-color: #007bff;
-            border-radius: 5px;
-            font-size: 0.9em;
-            transition: background-color 0.3s ease;
-        }
-        .offre a:hover {
-            background-color: #0056b3;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Espace Candidat</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #4e73df, #1cc88a);
+      color: #333;
+      text-align: center;
+    }
+
+    /* Logo */
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: #2c3e50;
+      text-transform: uppercase;
+    }
+
+    .logo span:first-child {
+      background: linear-gradient(135deg, #4CAF50, #FFC107);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .logo span:last-child {
+      color: #e6e12b;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #FFC107, #007BFF);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      color: #fff;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Header */
+    header {
+      padding: 60px 20px 20px;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      color: white;
+      margin: 0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Main Content */
+    main {
+      max-width: 900px;
+      margin: 80px auto 20px;
+      padding: 20px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      font-size: 2rem;
+      color: #4e73df;
+      margin-bottom: 20px;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 40px;
+    }
+
+    .button-group a {
+      display: inline-block;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(90deg, #4CAF50, #FFC107);
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .button-group a:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .offre {
+      margin-bottom: 30px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .offre h3 {
+      color: #4e73df;
+      margin-bottom: 10px;
+    }
+
+    .offre p {
+      color: #6c757d;
+      margin-bottom: 10px;
+    }
+
+    .offre a {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 1rem;
+      color: white;
+      text-decoration: none;
+      background: #1cc88a;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+    }
+
+    .offre a:hover {
+      background: #17a673;
+    }
+
+    /* Bouton Retour */
+    .btn-retour {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 15px 40px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 50px;
+      background: linear-gradient(90deg, #4CAF50, #FFC107);
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-retour:hover {
+      transform: scale(1.1);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 20px;
+      font-size: 0.8rem;
+      color: #ccc;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
+  <div class="logo">
+    <div class="logo-icon">H</div>
+    <span>HR</span><span>ly</span>
+  </div>
+  <a class="btn-retour" href="index.html">Retour</a>
 
-<header>
+  <header>
     <h1>Espace Candidat</h1>
-</header>
+  </header>
 
-<main>
+  <main>
     <div class="button-group">
-        <a href="{% url 'mes_candidatures' %}">Mes Candidatures</a>
-        <a href="{% url 'mes_entretiens' %}">Mes Entretiens</a>
+      <a href="{% url 'mes_candidatures' %}">Mes Candidatures</a>
+      <a href="{% url 'mes_entretiens' %}">Mes Entretiens</a>
     </div>
 
     <h2>Offres d'emploi disponibles</h2>
 
     {% for offre in offres %}
     <div class="offre">
-        <h3>{{ offre.titre }}</h3>
-        <p>{{ offre.description }}</p>
-        <p><small>Publié le : {{ offre.date_publication|date:"d/m/Y" }}</small></p>
-        <a href="{% url 'postuler' offre.id %}">Postuler</a>
+      <h3>{{ offre.titre }}</h3>
+      <p>{{ offre.description }}</p>
+      <p><small>Publié le : {{ offre.date_publication|date:"d/m/Y" }}</small></p>
+      <a href="{% url 'postuler' offre.id %}">Postuler</a>
     </div>
     {% empty %}
     <p>Aucune offre d'emploi disponible pour le moment.</p>
     {% endfor %}
-</main>
+  </main>
 
+  <footer>
+    Tous droits réservés © 2025
+  </footer>
+
+  <script>
+   
+
+    // Récupération de l'élément du bouton "Retour"
+    let btnRetour = document.querySelector('.btn-retour');
+
+    // Gestionnaire d'événement pour le clic sur le bouton "Retour"
+    btnRetour.addEventListener('click', function(event) {
+      event.preventDefault();  // Empêcher le comportement par défaut du lien
+      window.history.back();    // Retour à la page précédente
+    });
+
+    // Optionnel : Animation de l'effet de survol du bouton "Retour"
+    btnRetour.addEventListener('mouseenter', function() {
+      btnRetour.style.transform = 'scale(1.1)';
+      btnRetour.style.boxShadow = '0 12px 20px rgba(0, 0, 0, 0.3)';
+    });
+
+    btnRetour.addEventListener('mouseleave', function() {
+      btnRetour.style.transform = 'scale(1.0)';
+      btnRetour.style.boxShadow = '0 8px 15px rgba(0, 0, 0, 0.2)';
+    });
+  </script>
 </body>
 </html>

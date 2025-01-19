@@ -1,15 +1,186 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Formulaire Évaluation</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulaire Évaluation</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #4e73df, #1cc88a);
+      color: #333;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* Logo */
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: #2c3e50;
+      text-transform: uppercase;
+    }
+
+    .logo span:first-child {
+      background: linear-gradient(135deg, #4CAF50, #FFC107);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .logo span:last-child {
+      color: #e6e12b;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #FFC107, #007BFF);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      color: #fff;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Bouton Retour */
+    .btn-retour {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: inline-block;
+      padding: 15px 40px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 50px;
+      background: linear-gradient(90deg, #4CAF50, #FFC107);
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+    }
+
+    .btn-retour:hover {
+      transform: scale(1.1);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Formulaire */
+    form {
+      background: #fff;
+      padding: 20px 40px;
+      border-radius: 8px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+      text-align: left;
+    }
+
+    h1 {
+      color: #fff;
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+
+    form button {
+      width: 100%;
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      background: linear-gradient(90deg, #4CAF50, #FFC107);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    form button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Footer */
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.8rem;
+      color: #ccc;
+      text-align: center;
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
-    <h1>Formulaire Évaluation</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Enregistrer</button>
-    </form>
+  <div class="logo">
+    <div class="logo-icon">H</div>
+    <span>HR</span><span>ly</span>
+  </div>
+  <a class="btn-retour" href="index.html">Retour</a>
+
+  <h1>Formulaire Évaluation</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enregistrer</button>
+  </form>
+
+  <footer>
+    Tous droits réservés © 2025
+  </footer>
+  <script>
+    // Fonction pour afficher une alerte de confirmation lors de l'envoi du formulaire
+    document.querySelector('form').addEventListener('submit', function(event) {
+      event.preventDefault(); // Empêche l'envoi du formulaire pour le moment
+      if (confirm('Voulez-vous vraiment enregistrer vos réponses ?')) {
+        // Si l'utilisateur confirme, le formulaire est soumis
+        this.submit();
+      }
+    });
+  
+    // Fonction pour ajouter une redirection personnalisée au bouton "Retour"
+    document.querySelector('.btn-retour').addEventListener('click', function(event) {
+      event.preventDefault(); // Empêche la redirection immédiate
+      if (confirm('Voulez-vous revenir à la page d\'accueil ?')) {
+        window.location.href = this.getAttribute('href'); // Redirige vers l'URL spécifiée
+      }
+    });
+  
+    // Animation sur le logo au survol
+    const logo = document.querySelector('.logo');
+    logo.addEventListener('mouseenter', function() {
+      logo.style.transform = 'scale(1.1)';
+      logo.style.transition = 'transform 0.3s ease';
+    });
+  
+    logo.addEventListener('mouseleave', function() {
+      logo.style.transform = 'scale(1)';
+    });
+  
+    // Animation au chargement de la page pour un effet fluide
+    window.addEventListener('load', function() {
+      document.body.style.opacity = '1';
+      document.body.style.transition = 'opacity 1s ease';
+    });
+  
+    // Définir l'opacité initiale à 0 pour l'effet de transition au chargement
+    document.body.style.opacity = '0';
+  </script>
+  
 </body>
 </html>

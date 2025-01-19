@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 urlpatterns = [
-    #main path 
+    #main paths 
     path('', views.home, name='home'),  # Page d'accueil
     path('redirect/<str:role>/', views.redirect_to_role, name='redirect_to_role'),  # Redirection en fonction du rôle
     path('login/manager/', views.login_manager, name='login_manager'),  # Connexion Manager
@@ -9,13 +9,15 @@ urlpatterns = [
     path('login/candidat/', views.login_candidat, name='login_candidat'),  # Connexion Candidat
     path('manager/', views.evaluation_employe, name='evaluation_employe'),  # Évaluation Manager 
     path('agenrh/',views.main_rh ,name='main_rh'),
-  
+    #rh agent's paths
+    path('gestion-recrutement/', views.gestion_recrutement, name='gestion_recrutement'),
+    path('programmer-entretien/', views.programmer_entretien, name='programmer_entretien'),
+    path('main/condidat/mes_candidatures/', views.mes_candidatures, name='mes_candidatures'),
     path('agentrh/gestion_employe/',views.gestion_employe,name='gestion_employe'),
     path('agentrh/gestion_service/',views.gestion_service,name='gestion_service'),
     path('agentrh/gestion_contrat/',views.gestion_contrat,name='gestion_contrat'),
     path('agentrh/analyse_tableaux/',views.analyse_tableaux,name='analyse_tableaux'),
-    path('agentrh/recrutement/', views.gestion_recrutement, name='gestion_recrutement'),
-    #path('agentrh/analyse_tableaux/analyse_absence/',views.analyse_absences,name='analyse_absences'),
+  
     #employe
     path('newemploye/', views.employe_create, name='employe_create'),
     path('<int:pk>/editemploye/', views.employe_update, name='employe_update'), 
@@ -29,7 +31,7 @@ urlpatterns = [
     path('newservice/', views.service_create, name='service_create'),
     path('<int:pk>/editservice/', views.service_update, name='service_update'),
     path('<int:pk>/deleteservice/', views.service_delete, name='service_delete'),
-    #contrats
+    #contrat
     path('newcontract/', views.contract_create, name='contract_create'),
     path('<int:pk>/editcontract/', views.contract_update, name='contract_update'),
     path('<int:pk>/deletecontract/', views.contract_delete, name='contract_delete'), 
@@ -45,7 +47,4 @@ urlpatterns = [
     path('postuler/<int:offre_id>/condidat/mes_condidatures/', views.mes_candidatures, name='mes_candidatures'),
     path('mes-entretiens/', views.mes_entretiens, name='mes_entretiens'),
     path('publier-offre/', views.publier_offre, name='publier_offre'),
-    path('programmer-entretien/', views.programmer_entretien, name='programmer_entretien'),
-    path('gestion-recrutement/', views.gestion_recrutement, name='gestion_recrutement'),
-    path('main/condidat/mes_candidatures/', views.mes_candidatures, name='mes_candidatures'),
 ]

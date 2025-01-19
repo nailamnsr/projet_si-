@@ -1,158 +1,234 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Contrats</title>
     <style>
+        /* Styles globaux */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-        }
-        header {
-            background-color: #007bff;
-            color: white;
-            padding: 20px;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
             text-align: center;
-            border-bottom: 3px solid #0056b3;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2.5em;
-        }
-        main {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .search-bar {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
         }
-        .search-bar input[type="text"] {
-            flex: 1;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
-            margin-right: 10px;
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
-        .search-bar button {
-            padding: 10px 20px;
-            font-size: 16px;
-            color: white;
-            background-color: #007bff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .search-bar button:hover {
-            background-color: #0056b3;
-        }
-        a.add-contract {
-            display: inline-block;
-            margin-bottom: 20px;
-            padding: 10px 20px;
-            color: white;
-            background-color: #28a745;
+
+        a {
             text-decoration: none;
-            border-radius: 4px;
+            font-weight: bold;
+            color: #fff;
+            padding: 15px 25px;
+            border: 2px solid transparent;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            margin: 10px;
+            display: inline-block;
+            background: linear-gradient(135deg, #4CAF50, #FFC107);
         }
-        a.add-contract:hover {
-            background-color: #218838;
+
+        a:hover {
+            background: linear-gradient(135deg, #FFC107, #4CAF50);
+            color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
+
+        .buttons-container {
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
         table {
-            width: 100%;
+            width: 80%;
+            margin: 20px auto;
             border-collapse: collapse;
-            margin-top: 20px;
+            background: white;
+            color: #333;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
         }
-        table th, table td {
-            text-align: left;
-            padding: 10px;
-            border: 1px solid #dee2e6;
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #ddd;
         }
-        table th {
-            background-color: #007bff;
+
+        th {
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
             color: white;
+            text-transform: uppercase;
+            font-weight: bold;
         }
-        table tr:nth-child(even) {
-            background-color: #f8f9fa;
+
+        tr:nth-child(even) {
+            background-color: #e8f5e9;
         }
-        .options a {
-            margin-right: 10px;
-            padding: 5px 10px;
-            color: white;
-            background-color: #ffc107;
-            border-radius: 4px;
+
+        tr:hover {
+            background-color: #d0f0fd;
         }
-        .options a.delete {
+
+        td a {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            color: #fff;
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        td a:hover {
+            background: linear-gradient(135deg, #2196F3, #4CAF50);
+            color: #333;
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            text-transform: uppercase;
+        }
+
+        .logo span:first-child {
+            background: linear-gradient(135deg, #4CAF50, #FFC107);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo span:last-child {
+            color: #e6e12b;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #FFC107, #007BFF);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: #fff;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            table, th, td {
+                font-size: 0.9rem;
+            }
+
+            a {
+                padding: 10px 20px;
+            }
+        }
+
+        /* Confirmation de suppression */
+        .delete {
             background-color: #dc3545;
         }
-        .options a:hover {
-            opacity: 0.8;
+
+        .delete:hover {
+            background-color: #bd2130;
         }
+
+        .btn-retour {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: inline-block;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #28a745, #FFC107);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .btn-retour:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+        }
+
     </style>
 </head>
 <body>
-
-<header>
-    <h1>Gestion des Contrats</h1>
-</header>
-
-<main>
-    <!-- Lien pour ajouter un contrat -->
-    <a href="{% url 'contract_create' %}" class="add-contract">Ajouter un Contrat</a>
-
-    <!-- Barre de recherche -->
-    <div class="search-bar">
-        <form method="GET" action="">
-            <input type="text" name="q" placeholder="Rechercher un contrat par code, employé ou type de salaire..." value="{{ query }}">
-            <button type="submit">Rechercher</button>
-        </form>
+    <!-- Logo -->
+    <div class="logo">
+        <div class="logo-icon">H</div>
+        <span>HR</span><span>ly</span>
     </div>
 
-    <!-- Liste des contrats -->
-    <h2>Liste des Contrats</h2>
+    <h1>Gestion des Contrats</h1>
+
+    <!-- Boutons d'actions -->
+    <div class="buttons-container">
+        <a href="{% url 'contract_create' %}">Ajouter un Contrat</a>
+        <a href="{% url 'home' %}" class="btn-retour">Retour</a>
+    </div>
+
+    <!-- Tableaux des contrats -->
     <table>
-        <thead>
-            <tr>
-                <th>Code du Contrat</th>
-                <th>Date Début</th>
-                <th>Date Fin</th>
-                <th>Options</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for contract in contracts %}
-            <tr>
-                <td>{{ contract.code_contrat }}</td>
-                <td>{{ contract.date_debut_contrat }}</td>
-                <td>{{ contract.date_fin_contrat }}</td>
-               
-                <td class="options">
-                    <a href="{% url 'contract_update' contract.pk %}">Modifier</a>
-                    <a href="{% url 'afficher_contrat' contract.pk %}">afficher contrat</a>
-                    <a href="{% url 'contract_delete' contract.pk %}" class="delete">Supprimer</a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="7">Aucun contrat trouvé.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
+        <tr>
+            <th>Code du Contrat</th>
+            <th>Date Début</th>
+            <th>Date Fin</th>
+            <th>Type de Salaire</th>
+            <th>Montant Salaire</th>
+            <th>Employé</th>
+            <th>Actions</th>
+        </tr>
+        {% for contract in contracts %}
+        <tr>
+            <td>{{ contract.code_contrat }}</td>
+            <td>{{ contract.date_debut_contrat }}</td>
+            <td>{{ contract.date_fin_contrat }}</td>
+            <td>{{ contract.type_salaire }}</td>
+            <td>{{ contract.montant_salaire }}</td>
+            <td>{{ contract.id_employe }}</td>
+            <td>
+                <a href="{% url 'contract_update' contract.pk %}">Modifier</a>
+                <a href="{% url 'afficher_contrat' contract.pk %}">afficher</a>
+                <a href="{% url 'contract_delete' contract.pk %}" class="delete" onclick="return confirmDelete()">Supprimer</a>
+            </td>
+        </tr>
+        {% endfor %}
     </table>
-</main>
 
-<footer>
-    <p style="text-align: center; margin-top: 40px; color: #6c757d;">&copy; 2025 Votre Entreprise - Tous droits réservés.</p>
-</footer>
-
+    <script>
+        function confirmDelete() {
+            return confirm('Êtes-vous sûr de vouloir supprimer ce contrat ?');
+        }
+    </script>
 </body>
 </html>

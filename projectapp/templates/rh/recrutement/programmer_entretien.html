@@ -3,79 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Programmer un Entretien</title>
+    <title>Formulaire d'Entretien</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            background-color: #f4f4f9;
             margin: 0;
             padding: 0;
         }
-        main {
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+
         h1 {
             text-align: center;
-            color: #343a40;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        label {
-            font-weight: bold;
-            color: #343a40;
-        }
-        input, select {
-            padding: 10px;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-        }
-        button {
-            padding: 10px;
-            font-size: 16px;
             color: white;
-            background-color: #007bff;
-            border: none;
+            background-color: #4CAF50;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .form-container {
+            width: 80%;
+            max-width: 600px;
+            margin: 30px auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .form-container label {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .form-container input, .form-container select, .form-container textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
             border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .form-container input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
             cursor: pointer;
         }
-        button:hover {
-            background-color: #0056b3;
+
+        .form-container input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .form-container .error {
+            color: red;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
+    <h1>Formulaire d'Entretien</h1>
+    <div class="form-container">
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="id_candidature">Candidature</label>
+                {{ form.candidature }}
+                {% if form.candidature.errors %}
+                    <div class="error">{{ form.candidature.errors }}</div>
+                {% endif %}
+            </div>
 
-<main>
-    <h1>Programmer un Entretien</h1>
-    <form method="post" action="{% url 'programmer_entretien' %}">
-        {% csrf_token %}
-        <label for="candidat">Candidat</label>
-        <select name="candidat" id="candidat" required>
-            {% for candidature in candidatures %}
-            <option value="{{ candidature.id }}">{{ candidature.nom }}</option>
-            {% endfor %}
-        </select>
+            <div class="form-group">
+                <label for="id_date">Date de l'entretien</label>
+                {{ form.date }}
+                {% if form.date.errors %}
+                    <div class="error">{{ form.date.errors }}</div>
+                {% endif %}
+            </div>
 
-        <label for="date">Date de l'entretien</label>
-        <input type="date" id="date" name="date" required>
+            <div class="form-group">
+                <label for="id_lieu">Lieu de l'entretien</label>
+                {{ form.lieu }}
+                {% if form.lieu.errors %}
+                    <div class="error">{{ form.lieu.errors }}</div>
+                {% endif %}
+            </div>
 
-        <label for="heure">Heure de l'entretien</label>
-        <input type="time" id="heure" name="heure" required>
+            <div class="form-group">
+                <label for="id_remarques">Remarques</label>
+                {{ form.remarques }}
+                {% if form.remarques.errors %}
+                    <div class="error">{{ form.remarques.errors }}</div>
+                {% endif %}
+            </div>
 
-        <label for="lieu">Lieu</label>
-        <input type="text" id="lieu" name="lieu" placeholder="Exemple : Bureau RH" required>
-
-        <button type="submit">Programmer</button>
-    </form>
-</main>
-
+            <input type="submit" value="Soumettre">
+        </form>
+    </div>
 </body>
 </html>
+

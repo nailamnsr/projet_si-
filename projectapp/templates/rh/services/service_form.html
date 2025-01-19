@@ -1,6 +1,185 @@
-<h1> Bienvenue </h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Enregistrer</button>
-</form>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logo et Retour</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #4e73df, #1cc88a);
+      color: #333;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* Logo */
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: #2c3e50;
+      text-transform: uppercase;
+    }
+
+    .logo span:first-child {
+      background: linear-gradient(135deg, #4CAF50, #FFC107);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .logo span:last-child {
+      color: #e6e12b;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #FFC107, #007BFF);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      color: #fff;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Bouton Retour */
+    .btn-retour {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: inline-block;
+      padding: 15px 40px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 50px;
+      background: linear-gradient(90deg, #4CAF50, #FFC107);
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+    }
+
+    .btn-retour:hover {
+      transform: scale(1.1);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Section principale */
+    main {
+      padding: 20px;
+      text-align: center;
+    }
+
+    main h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    form {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      display: inline-block;
+    }
+
+    form button {
+      background: #4CAF50;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    form button:hover {
+      background: #45a049;
+    }
+
+    /* Footer */
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.8rem;
+      color: #ccc;
+      text-align: center;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">
+    <div class="logo-icon">H</div>
+    <span>HR</span><span>ly</span>
+  </div>
+  <a class="btn-retour" href="index.html">Retour</a>
+
+  <main>
+    <h1 id="welcome-message">Bienvenue</h1>
+    <form id="data-form" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Enregistrer</button>
+    </form>
+  </main>
+
+  <footer>
+    Tous droits réservés © 2025
+  </footer>
+
+  <script>
+    // Variables globales
+    const welcomeMessage = document.getElementById('welcome-message');
+    const form = document.getElementById('data-form');
+    const retourButton = document.querySelector('.btn-retour');
+
+    // Changement de message dynamique
+    welcomeMessage.textContent += ", cher visiteur !";
+
+    // Gestionnaire de clic pour le bouton Retour
+    retourButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      if (confirm('Êtes-vous sûr de vouloir retourner à la page précédente ?')) {
+        window.location.href = retourButton.getAttribute('href');
+      }
+    });
+
+    // Gestionnaire de soumission de formulaire
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      alert('Données enregistrées avec succès !');
+      form.reset(); // Réinitialiser le formulaire après enregistrement
+    });
+
+    // Animation d'apparition pour le titre
+    setTimeout(() => {
+      welcomeMessage.style.opacity = 0;
+      welcomeMessage.style.transition = 'opacity 1s ease';
+      setTimeout(() => {
+        welcomeMessage.style.opacity = 1;
+      }, 200);
+    }, 1000);
+  </script>
+</body>
+</html>

@@ -1,27 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenue</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
+            background: linear-gradient(to right, #4e73df, #1cc88a);
+            color: #333;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
+
+        /* Logo */
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            text-transform: uppercase;
+        }
+
+        .logo span:first-child {
+            background: linear-gradient(135deg, #4CAF50, #ddbc58);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo span:last-child {
+            color: #e6e12b;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #FFC107, #007BFF);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: #fff;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Bouton Retour */
+        .btn-retour {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: inline-block;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #4CAF50, #FFC107);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .btn-retour:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            position: absolute;
+            bottom: 10px;
+            font-size: 0.8rem;
+            color: #ccc;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Page Welcome */
         header {
-            background-color: #007bff;
+            background-color: #4e73df;
             color: white;
             padding: 20px;
             text-align: center;
-            border-bottom: 3px solid #3d73ac;
+            border-bottom: 3px solid #1cc88a;
         }
+
         header h1 {
             margin: 0;
             font-size: 2.5em;
+            border-radius: 30%;
         }
+
         main {
             max-width: 900px;
             margin: 40px auto;
@@ -31,16 +114,20 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
+
         main h1 {
             margin-bottom: 20px;
-            color: #343a40;
+            color: #333;
+            border-radius: 30%;
         }
+
         .links {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 20px;
         }
+
         .links a {
             display: inline-block;
             width: 60%;
@@ -48,45 +135,67 @@
             font-size: 1.2em;
             color: white;
             text-decoration: none;
-            background-color: #4773a2;
-            border-radius: 5px;
+            background: linear-gradient(90deg, #4e73df, #1cc88a);
+            border-radius: 50px;
             text-align: center;
             transition: background-color 0.3s ease;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
         }
+
         .links a:hover {
-            background-color: #4f88c4;
-        }
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 10px;
-            background-color: #f1f1f1;
-            color: #6c757d;
+            background-color: #3b8dff;
         }
     </style>
 </head>
 <body>
-
-<header>
-    <h1>Bienvenue</h1>
-</header>
-
-<main>
-    <h1>Choisissez une option</h1>
-    <div class="links">
-        <a href="{% url 'gestion_employe' %}">Gestion des Employés</a>
-        <a href="{% url 'gestion_service' %}">Gestion des Services</a>
-        <a href="{% url 'gestion_contrat' %}">Gestion des Contrats</a>
-        <a href="{% url 'gestion_recrutement' %}">Gestion des Recrutements</a>
-      
-        <a href="{% url 'analyse_tableaux' %}">Tableaux et graphique</a>
-        
+    <div class="logo">
+        <div class="logo-icon">H</div>
+        <span>HR</span><span>ly</span>
     </div>
-</main>
+    <a class="btn-retour" href="index.html">Retour</a>
+    <footer>
+        Tous droits réservés © 2025
+    </footer>
 
-<footer>
-    <p>&copy; - Tous droits réservés.</p>
-</footer>
+    <!-- Page Welcome Content -->
+    <header>
+        <h1>Bienvenue</h1>
+    </header>
+
+    <main>
+        <h1>Choisissez une option</h1>
+        <div class="links">
+            <a href="{% url 'gestion_employe' %}">Gestion des Employés</a>
+            <a href="{% url 'gestion_service' %}">Gestion des Services</a>
+            <a href="{% url 'gestion_contrat' %}">Gestion des Contrats</a>
+            <a href="{% url 'gestion_recrutement' %}">Gestion des Recrutements</a>
+            <a href="{% url 'analyse_tableaux' %}">Tableaux et graphique</a>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animation sur hover du bouton
+            document.querySelectorAll('.btn-retour').forEach(button => {
+                button.addEventListener('mouseover', () => {
+                    button.style.transform = 'scale(1.1)';
+                    button.style.boxShadow = '0 12px 20px rgba(0, 0, 0, 0.3)';
+                });
+
+                button.addEventListener('mouseout', () => {
+                    button.style.transform = 'scale(1)';
+                    button.style.boxShadow = '0 8px 15px rgba(0, 0, 0, 0.2)';
+                });
+            });
+
+            // Changement aléatoire de la couleur de fond
+            const colors = ['#4e73df', '#1cc88a', '#FFC107', '#007BFF', '#FF5733'];
+            const body = document.body;
+
+            body.style.background = `linear-gradient(to right, ${colors[Math.floor(Math.random() * colors.length)]}, ${colors[Math.floor(Math.random() * colors.length)]})`;
+        });
+    </script>
 
 </body>
 </html>

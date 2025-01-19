@@ -68,7 +68,7 @@ class EntretienForm(forms.ModelForm):
         date = self.cleaned_data.get('date')
         candidature = self.cleaned_data.get('candidature')
 
-        # Vérifier s'il y a déjà un entretien programmé à cette date pour la même candidature
+       
         if Entretien.objects.filter(candidature=candidature, date=date).exists():
             raise forms.ValidationError("Un entretien est déjà programmé à cette date.")
         return date

@@ -3,12 +3,12 @@ from .models import Employe,Service,Conge,Contract,Evaluation,Salaire,OffreEmplo
 from .forms import EmployeForm,serviceForm,congeForm,ContractForm,EvaluationForm,AbsenceForm,SalaireForm,OffreEmploiForm,CandidatureForm,EntretienForm
 from django.db.models import Q
 from datetime import timedelta,date
-from django.db.models import Count, Avg, Sum, F, ExpressionWrapper, DurationField
-import csv
-import tempfile
+from django.db.models import Count, Avg
+import csv 
 from django.http import HttpResponse
-from django.template.loader import render_to_string
- 
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from django.shortcuts import render, redirect
 
 # Create your views here.
 def redirect_to_role(request, role):
@@ -21,9 +21,6 @@ def redirect_to_role(request, role):
     else:
         return redirect('home')  # Rediriger vers l'accueil si le rôle est invalide 
 #authentification    
-from django.contrib.auth import authenticate, login
-from django.contrib import messages
-
 def login_manager(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -61,25 +58,21 @@ def login_candidat(request):
         else:
             messages.error(request, 'Identifiants invalides ou vous n\'êtes pas un candidat.')
     return render(request, 'auth/login_candidat.html')
+
 def home(request):
     return render(request, 'home.html')
-    
+#page principal de lagent rh     
 def main_rh(request):
-    # Récupération de tous les objets des modèles
     employes = Employe.objects.all()
     services = Service.objects.all()
     conges = Conge.objects.all()
     contrats = Contract.objects.all()
-
-    # Contexte pour la vue
     context = {
         'employes': employes,
         'services': services,
         'conges': conges,
         'contrats': contrats,
     }
-
-    # Rendu de la page
     return render(request, 'rh/main_rh.html', context)
 
 
@@ -96,14 +89,12 @@ def gestion_employe(request):
         
         employes = Employe.objects.all()
 
-    # Contexte pour la vue
     context = {
         'employes': employes,
-        'query': query,  # Inclure la recherche pour la réutiliser dans le formulaire ou l'interface
-    }
-
-    # Rendu de la page
+        'query': query,  }
     return render(request, 'rh/employes/gestion_employe.html', context)
+
+
 # Ajouter un employé
 def employe_create(request):
     if request.method == "POST":
@@ -135,7 +126,7 @@ def employe_delete(request, pk):
         return redirect('main_rh')
     return render(request, 'rh/employes/employe_confirm_delete.html', {'employe': employe})
 
-# etablir une fiche demploye
+ 
 
 #ajouter conge
 def ajouter_conge(request, pk):
@@ -144,35 +135,31 @@ def ajouter_conge(request, pk):
         form = congeForm(request.POST)
         if form.is_valid():
             conge = form.save(commit=False)
-            conge.id_employe = employe  # Link the employee to the leave
-            jours_pris = (conge.date_fin - conge.date_debut).days + 1  # Calculate leave days
+            conge.id_employe = employe  
+            jours_pris = (conge.date_fin - conge.date_debut).days + 1 
 
             if employe.solde_conge < jours_pris:
-                # Handle case where the employee doesn't have enough leave
+                 
                 form.add_error(None, "Solde de congé insuffisant")
                 return render(request, 'rh/employes/ajouter_conge.html', {'form': form, 'employe': employe})
-
-            # If enough balance, update and save
             employe.solde_conge -= jours_pris
             employe.save()
             conge.save()
-
-            return redirect('gestion_employe')  # Redirect to employee management page
+            return redirect('gestion_employe')   
     else:
         form = congeForm()
-
     return render(request, 'rh/employes/ajouter_conge.html', {'form': form, 'employe': employe})
+
+
 #affichage des conges 
 def fiche_employe(request, pk):
     employe = get_object_or_404(Employe, pk=pk)
     congés = employe.conge_set.all()
-    absences = Absence.objects.filter(employe=employe) # Récupérer tous les congés de l'employé
-
-    # Créer une liste de dictionnaires contenant les informations nécessaires
+    absences = Absence.objects.filter(employe=employe) 
     conge_data = []
     for conge in congés:
-        jours_pris = conge.get_nombre_jours()  # Nombre de jours pris pour chaque congé
-        jours_restants = employe.solde_conge - jours_pris  # Calcul des jours restants
+        jours_pris = conge.get_nombre_jours()  
+        jours_restants = employe.solde_conge - jours_pris  
         conge_data.append({
             'conge': conge,
             'jours_restants': jours_restants,
@@ -188,6 +175,8 @@ def fiche_employe(request, pk):
 def evaluation_employe(request):
     evaluations = Evaluation.objects.all()
     return render(request, 'manager/evaluation_employe.html', {'evaluations': evaluations})
+
+
 #creation dune evaluation
 def evaluation_create(request):
     if request.method == "POST":
@@ -198,6 +187,8 @@ def evaluation_create(request):
     else:
         form = EvaluationForm()
     return render(request, 'manager/evaluation_form.html', {'form': form})
+
+
 #modification dune evaluation
 def evaluation_update(request, pk):
     evaluation = get_object_or_404(Evaluation, pk=pk)
@@ -209,6 +200,8 @@ def evaluation_update(request, pk):
     else:
         form = EvaluationForm(instance=evaluation)
     return render(request, 'manager/evaluation_form.html', {'form': form})
+
+
 #supprision dune evaluation
 def evaluation_delete(request, pk):
     evaluation = get_object_or_404(Evaluation, pk=pk)
@@ -229,25 +222,22 @@ def generate_report_for_evaluation(request, pk):
 
 #gestion des services 
 def gestion_service(request):
-    query = request.GET.get('q', '')  # Récupère la valeur de la recherche depuis les paramètres GET
+    query = request.GET.get('q', '') 
 
     if query:
-        # Filtre les services selon la recherche (nom_service ou code_service)
+        
         services = Service.objects.filter(
             Q(nom_service__icontains=query) | Q(code_service__icontains=query)
         )
     else:
-        # Si pas de recherche, récupère tous les services
         services = Service.objects.all()
-
-    # Contexte pour la vue
     context = {
         'services': services,
-        'query': query,  # Inclure la recherche pour l'interface utilisateur
+        'query': query,  
     }
-
-    # Rendu de la page
     return render(request, 'rh/services/gestion_service.html', context)
+
+
 # Ajouter un service
 def service_create(request):
     if request.method == "POST":
@@ -258,6 +248,7 @@ def service_create(request):
     else:
         form = serviceForm()
     return render(request, 'rh/services/service_form.html', {'form': form})
+
 
 # Modifier un service
 def service_update(request, pk):
@@ -271,48 +262,49 @@ def service_update(request, pk):
         form = serviceForm(instance=service)
     return render(request, 'rh/services/service_form.html', {'form': form})
 
+
 #  supprimer un service
 def service_delete(request, pk):
     service = get_object_or_404(Service, pk=pk)
     if request.method == "POST":
         service.delete()
-        return redirect('main_rh')  # Redirige vers la liste principale après suppression
+        return redirect('main_rh')  
     return render(request, 'rh/services/service_comfirm_delete.html', {'service': service})
+
 
 #gestion des contrats 
 def gestion_contrat(request):
-    query = request.GET.get('q', '')  # Récupère la valeur de la recherche depuis les paramètres GET
+    query = request.GET.get('q', '')  
 
     if query:
-        # Filtre les contrats selon la recherche (code_contrat)
+       
         contracts = Contract.objects.filter(
             Q(code_contrat__icontains=query)
         )
     else:
-        # Si pas de recherche, récupère tous les contrats
         contracts = Contract.objects.all()
-
-    # Contexte pour la vue
     context = {
         'contracts': contracts,
-        'query': query,  # Inclure la recherche pour l'interface utilisateur
-    }
-
-    # Rendu de la page
+        'query': query,  }
     return render(request, 'rh/contrats/gestion_contrat.html', context)
+
+
+
 # Créer un contrat
 def contract_create(request):
     if request.method == "POST":
         form = ContractForm(request.POST)
-        print(request.POST)  # Vérifiez ici les données soumises
+        print(request.POST)  
         if form.is_valid():
             form.save()
-            print("Formulaire valide et contrat enregistré")  # Vérification supplémentaire
-            return redirect('gestion_contrat')  # Redirection après enregistrement
+            print("Formulaire valide et contrat enregistré")  
+            return redirect('gestion_contrat')  
         else:
-            print("Formulaire non valide : ", form.errors)  # Affiche les erreurs de validation
+            print("Formulaire non valide : ", form.errors)
     else:
+        # Si la méthode est GET, initialiser un formulaire vide
         form = ContractForm()
+
     return render(request, 'rh/contrats/contrat_form.html', {'form': form})
 
 
@@ -323,25 +315,24 @@ def contract_update(request, pk):
         form = ContractForm(request.POST, instance=contrat)
         if form.is_valid():
             form.save()
-            return redirect('gestion_contrat')  # Redirection après modification
+            return redirect('gestion_contrat')  
     else:
         form = ContractForm(instance=contrat)
     return render(request, 'rh/contrats/contrat_form.html', {'form': form})
+
 
 # Supprimer un contrat
 def contract_delete(request, pk):
     contrat = get_object_or_404(Contract, pk=pk)
     if request.method == "POST":
         contrat.delete()
-        return redirect('gestion_contrat')  # Redirection après suppression
-    return render(request, 'rh/contrats/contrat_confirm_delete.html', {'contrat': contrat})
-#afficher les deatils d'un contrat 
+        return redirect('gestion_contrat')  
+    return render(request, 'rh/contrats/contrat_confirm_delete.html', {'contrat': contrat}) 
 def afficher_contrat(request, pk):
-    # Récupérer le contrat correspondant à la clé primaire pk
     contract = get_object_or_404(Contract, pk=pk)
     return render(request, 'rh/contrats/afficher_contrat.html', {'contract': contract})
 
-
+#marquer une absence
 def marquer_absence(request, pk):
     employe = get_object_or_404(Employe, pk=pk)
     absence=Absence.objects.filter(employe=employe)
@@ -349,16 +340,18 @@ def marquer_absence(request, pk):
     if request.method == "POST":
         form = AbsenceForm(request.POST)
         if form.is_valid():
-            absence = form.save(commit=False)  # Ne sauvegarde pas encore
-            absence.employe = employe  # Associe l'absence à l'employé
-            absence.save()  # Sauvegarde l'absence avec la date
-            employe.incrementer_absence()  # Incrémente le nombre d'absences
-            return redirect('fiche_employe', pk=employe.pk)  # Redirige vers la fiche employé
+            absence = form.save(commit=False)  
+            absence.employe = employe  
+            absence.save()  
+            employe.incrementer_absence()  
+            return redirect('fiche_employe', pk=employe.pk)   
     else:
         form = AbsenceForm()
 
     return render(request, 'rh/employes/marquer_absence.html', {'form': form, 'employe': employe,'absence':absence})
 
+
+#analyse et tableaux
 def analyse_tableaux(request):
     # Effectifs Totaux
     effectifs = Contract.objects.values('type_contrat').annotate(total=Count('id_employe'))
@@ -386,27 +379,16 @@ def analyse_tableaux(request):
 
 
 
-
-
-
-#cree gestion salaire 
-#importe la bibliotheque 
-#'''
-
-
-from django.shortcuts import render, redirect
-
-
+# page principale candidat
 def candidat_home(request):
-    offres = OffreEmploi.objects.all()  # Récupérer toutes les offres d'emploi
+    offres = OffreEmploi.objects.all()  
     context = {'offres': offres}
     return render(request, 'condidat/main_condidat.html', context)
 
 
 
 
-# Vue pour soumettre une candidature
-
+#  soumettre une candidature
 def postuler(request, offre_id):
     offre = get_object_or_404(OffreEmploi, id=offre_id)
 
@@ -414,8 +396,8 @@ def postuler(request, offre_id):
         form = CandidatureForm(request.POST)
         if form.is_valid():
             candidature = form.save(commit=False)
-            candidature.candidat = request.user  # Associe le candidat connecté
-            candidature.offre = offre  # Associe l'offre sélectionnée
+            candidature.candidat = request.user  
+            candidature.offre = offre  
             candidature.save()
             return redirect('mes_candidatures')
     else:
@@ -424,19 +406,16 @@ def postuler(request, offre_id):
     context = {'form': form, 'offre': offre}
     return render(request, 'condidat/postuler.html', context)
 
-# Vue pour afficher les candidatures du candidat
-
+# afficher les candidatures du candidat
 def mes_candidatures(request, offre_id=None):
     if offre_id:
-        # Filter candidatures based on the specific offer
         candidatures = Candidature.objects.filter(candidat=request.user, offre_id=offre_id)
     else:
-        # Show all candidatures for the user
         candidatures = Candidature.objects.filter(candidat=request.user)
     return render(request, 'condidat/mes_condidatures.html', {'candidatures': candidatures})
 
-# Vue pour afficher les entretiens du candidat
 
+#  afficher les entretiens du candidat
 def mes_entretiens(request):
     # Récupérer tous les entretiens du candidat actuel
     entretiens = Entretien.objects.filter(candidature__candidat=request.user)
@@ -454,27 +433,22 @@ def publier_offre(request):
         form = OffreEmploiForm()
     return render(request, 'rh/recrutement/publier_offre.html', {'form': form})
 
-# Vue pour l'agent RH : programmer un entretien
-
+#programmer un entretien
 def programmer_entretien(request):
-    # Récupérer les candidatures, filtrer si nécessaire
-    candidatures = Candidature.objects.all()  # Vous pouvez appliquer un filtre selon le besoin (par exemple, par statut ou utilisateur connecté)
-    
+    candidatures = Candidature.objects.all()  
     if request.method == 'POST':
         form = EntretienForm(request.POST)
         if form.is_valid():
             form.save()
-            # Rediriger vers la page après la soumission du formulaire (exemple : gestion du recrutement)
-            return redirect('rh/recrutement/gestion_recrutement')
+            return redirect('gestion_recrutement')
     else:
         form = EntretienForm()
     
     return render(request, 'rh/recrutement/programmer_entretien.html', {'form': form, 'candidatures': candidatures})
 
-# Vue pour l'agent RH : gestion des candidatures et entretiens
 
+#gestion des candidatures et entretiens
 def gestion_recrutement(request):
-    # Récupérer les candidatures et les entretiens
     candidatures = Candidature.objects.all()
     entretiens = Entretien.objects.all()
     offres = OffreEmploi.objects.all()
@@ -485,61 +459,54 @@ def gestion_recrutement(request):
         'offres': offres
     })
 
+#afficher la fiche de paye
 def afficher_fiche_de_paye(request, pk):
     try:
-        employe = Employe.objects.get(pk=pk)  # Get the employee by pk
-        salaire = Salaire.objects.get(employe=employe)  # Try to get the corresponding salary
+        employe = Employe.objects.get(pk=pk)  
+        salaire = Salaire.objects.get(employe=employe)  
     except Employe.DoesNotExist:
-        # If the employee doesn't exist, handle the error
+        
         messages.error(request, "L'employé avec l'ID donné n'existe pas.")
-        return redirect('employe_non_trouve')  # Redirect to an error page or other route
+        return redirect('employe_non_trouve')  
     except Salaire.DoesNotExist:
-        # If no salary is found for the employee, handle the error
+     
         messages.error(request, "Aucune fiche de paye trouvée pour cet employé.")
-        return redirect('ajouter_salaire', pk=pk)  # Redirect to a page where you can add salary for the employee
-
-    # If both employee and salary are found, render the fiche de paye
+        return redirect('ajouter_salaire', pk=pk)  
     return render(request, 'rh/salaires/fiche_de_paye.html', {
         'employe': employe,
         'salaire': salaire
     })
 
+#ajouter le salaiare
 def ajouter_salaire(request, pk):
     try:
-        employe = Employe.objects.get(pk=pk)  # Récupérer l'employé avec l'ID fourni
+        employe = Employe.objects.get(pk=pk)  
     except Employe.DoesNotExist:
-        return redirect('employe_non_trouve')  # Gérer l'erreur si l'employé n'existe pas
-
+        return redirect('employe_non_trouve')  
     if request.method == 'POST':
         form = SalaireForm(request.POST)
         if form.is_valid():
             salaire = form.save(commit=False)
-
-            # Récupérer les valeurs pour les absences et les demandes de massrouf
-            nb_absences = employe.nb_absence  # Assurez-vous que 'nb_absence' est bien défini dans le modèle Employe
-            nbr_massrouf = form.cleaned_data.get('nbr_massrouf', 0)  # Assurez-vous que 'nbr_massrouf' est inclus dans le formulaire
-
-            # Calcul du salaire quotidien
+            nb_absences = employe.nb_absence 
+            nbr_massrouf = form.cleaned_data.get('nbr_massrouf', 0)  
             salaire_quot = salaire.salaire_base / 30
-
-            # Calcul du salaire total
             salaire.salaire_quot = salaire_quot
             salaire.salaire_total = (
                 salaire.salaire_base
                 + salaire.primes
-                - (salaire_quot * nb_absences)  # Déduction des absences
-                - (salaire_quot * nbr_massrouf )  # Déduction des massrouf
+                - (salaire_quot * nb_absences) 
+                - (salaire_quot * nbr_massrouf )  
             )
 
-            salaire.employe = employe  # Lier l'employé à ce salaire
-            salaire.save()  # Sauvegarder les informations du salaire
+            salaire.employe = employe  
+            salaire.save()  
 
-            return redirect('gestion_employe')  # Rediriger après avoir enregistré avec succès
+            return redirect('gestion_employe')  
     else:
         form = SalaireForm()
 
     return render(request, 'rh/salaires/ajouter_salaire.html', {
         'form': form,
-        'employe': employe,  # Passer l'employé à la template pour l'affichage
+        'employe': employe,   
     })
    

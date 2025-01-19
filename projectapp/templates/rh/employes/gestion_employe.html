@@ -5,144 +5,258 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Employés</title>
     <style>
+        /* Styles globaux */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            margin: 20px;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
         }
-        h1, h2 {
-            color: #343a40;
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
+
         a {
-            color: #007bff;
             text-decoration: none;
+            font-weight: bold;
+            color: #fff;
+            padding: 15px 25px;
+            border: 2px solid transparent;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            margin: 10px;
+            display: inline-block;
+            background: linear-gradient(135deg, #4CAF50, #FFC107);
         }
+
         a:hover {
-            text-decoration: underline;
+            background: linear-gradient(135deg, #FFC107, #4CAF50);
+            color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        .buttons-container {
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
         }
-        .search-bar {
-            margin-bottom: 20px;
-        }
-        .search-bar input[type="text"] {
-            width: 300px;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
-        }
-        .search-bar button {
-            padding: 10px 20px;
-            font-size: 16px;
-            color: #ffffff;
-            background-color: #007bff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .search-bar button:hover {
-            background-color: #0056b3;
-        }
+
         table {
-            width: 100%;
+            width: 80%;
+            margin: 20px auto;
             border-collapse: collapse;
-            margin-top: 20px;
+            background: white;
+            color: #333;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
         }
-        table th, table td {
-            text-align: left;
-            padding: 10px;
-            border: 1px solid #dee2e6;
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #ddd;
         }
-        table th {
-            background-color: #007bff;
-            color: #ffffff;
+
+        th {
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+            color: white;
+            text-transform: uppercase;
+            font-weight: bold;
         }
-        table tr:nth-child(even) {
-            background-color: #f8f9fa;
+
+        tr:nth-child(even) {
+            background-color: #e8f5e9;
         }
-        .options a {
-            margin-right: 10px;
-            padding: 5px 10px;
-            color: #ffffff;
-            background-color: #28a745;
-            border-radius: 4px;
+
+        tr:hover {
+            background-color: #d0f0fd;
         }
-        .options a.delete {
+
+        td a {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            color: #fff;
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        td a:hover {
+            background: linear-gradient(135deg, #2196F3, #4CAF50);
+            color: #333;
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            text-transform: uppercase;
+        }
+
+        .logo span:first-child {
+            background: linear-gradient(135deg, #4CAF50, #FFC107);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo span:last-child {
+            color: #e6e12b;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #FFC107, #007BFF);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: #fff;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            table, th, td {
+                font-size: 0.9rem;
+            }
+
+            a {
+                padding: 10px 20px;
+            }
+        }
+
+        /* Confirmation de suppression */
+        .delete {
             background-color: #dc3545;
         }
-        .options a:hover {
-            opacity: 0.8;
+
+        .delete:hover {
+            background-color: #bd2130;
         }
-        .add-employee {
+
+        .btn-retour {
+            position: absolute;
+            top: 20px;
+            right: 20px;
             display: inline-block;
-            margin-bottom: 20px;
-            padding: 10px 20px;
-            color: #ffffff;
-            background-color: #28a745;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
             text-decoration: none;
-            border-radius: 4px;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #28a745, #FFC107);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
         }
-        .add-employee:hover {
-            background-color: #218838;
+
+        .btn-retour:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Gestion des Employés</h1>
 
-        <!-- Lien pour ajouter un employé -->
+    <!-- Logo -->
+    <header class="logo">
+        <div class="logo-icon">H</div>
+        <span>HR</span><span>ly</span>
+    </header>
+
+    <!-- Titre principal -->
+    <h1>Gestion des Employés</h1>
+
+    <!-- Container de boutons -->
+    <div class="buttons-container">
+        <a href="{% url 'contract_create' %}">Ajouter un Contrat</a>
+        <a href="{% url 'home' %}" class="btn-retour">Retour</a>
         <a href="{% url 'employe_create' %}" class="add-employee">Ajouter un Employé</a>
-
-        <!-- Barre de recherche -->
-        <div class="search-bar">
-            <form method="GET" action="">
-                <input type="text" name="q" placeholder="Rechercher un employé..." value="{{ query }}">
-                <button type="submit">Rechercher</button>
-            </form>
-        </div>
-
-        <!-- Liste des employés -->
-        <h2>Liste des Employés</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Code</th>
-                    <th>Nom</th>
-                    <th>Prénom</th>
-                    <th>Options</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for employe in employes %}
-                <tr>
-                    <td>{{ employe.code }}</td>
-                    <td>{{ employe.nom }}</td>
-                    <td>{{ employe.prenom }}</td>
-                    <td class="options">
-                        <a href="{% url 'employe_update' employe.pk %}">Modifier</a>
-                        <a href="{% url 'employe_delete' employe.pk %}" class="delete">Supprimer</a>
-                        <a href="{% url 'fiche_employe' employe.pk %}">Fiche Employé</a>
-                        <a href="{% url 'ajouter_conge' employe.pk %}">Ajouter Congé</a>
-                        <a href="{% url 'marquer_absence' pk=employe.pk %}">Marquer Absence</a>
-                        <a href="{% url 'ajouter_salaire' pk=employe.pk %}"> salaire </a>
-                        <a href="{% url 'afficher_fiche_de_paye' pk=employe.pk %}"> fiche de paye  </a>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="4">Aucun employé trouvé.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
     </div>
+
+    <!-- Barre de recherche -->
+    <div class="search-bar">
+        <form method="GET" action="">
+            <input type="text" name="q" placeholder="Rechercher un employé..." value="{{ query }}">
+            <button type="submit">Rechercher</button>
+        </form>
+    </div>
+
+    <!-- Table des employés -->
+    <h2>Liste des Employés</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employe in employes %}
+            <tr>
+                <td>{{ employe.code }}</td>
+                <td>{{ employe.nom }}</td>
+                <td>{{ employe.prenom }}</td>
+                <td class="options">
+                    <a href="{% url 'employe_update' employe.pk %}">Modifier</a>
+                    <a href="{% url 'employe_delete' employe.pk %}" class="delete">Supprimer</a>
+                    <a href="{% url 'fiche_employe' employe.pk %}">Fiche Employé</a>
+                    <a href="{% url 'ajouter_conge' employe.pk %}">Ajouter Congé</a>
+                    <a href="{% url 'marquer_absence' pk=employe.pk %}">Marquer Absence</a>
+                    <a href="{% url 'ajouter_salaire' pk=employe.pk %}"> salaire </a>
+                    <a href="{% url 'afficher_fiche_de_paye' pk=employe.pk %}"> fiche de paye  </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">Aucun employé trouvé.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+ <script>
+ // Fonction pour supprimer un employé
+    function confirmDelete(url) {
+        if (confirm("Êtes-vous sûr de vouloir supprimer cet employé ?")) {
+            window.location.href = url;
+        }
+    }
+    
+    // Événement pour la suppression des employés
+    document.querySelectorAll('.delete').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            confirmDelete(this.href);
+        });
+    });
+   </script>
 </body>
 </html>

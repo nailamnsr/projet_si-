@@ -1,11 +1,150 @@
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logo et Retour</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #4e73df, #1cc88a);
+      color: #333;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* Logo */
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: #2c3e50;
+      text-transform: uppercase;
+    }
+
+    .logo span:first-child {
+      background: linear-gradient(135deg, #4CAF50, #FFC107);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .logo span:last-child {
+      color: #e6e12b;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #FFC107, #007BFF);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      color: #fff;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Bouton Retour */
+    .btn-retour {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: inline-block;
+      padding: 15px 40px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 50px;
+      background: linear-gradient(90deg, #4CAF50, #FFC107);
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+    }
+
+    .btn-retour:hover {
+      transform: scale(1.1);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Footer */
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.8rem;
+      color: #ccc;
+      text-align: center;
+      width: 100%;
+    }
+
+  </style>
+</head>
 <body>
-    <h1>Postuler pour: {{ offre.titre }}</h1>
-    <p>Description: {{ offre.description }}</p>
-    <p>Publié par: {{ offre.recruteur.username }}</p>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Envoyer ma candidature</button>
-</form>
+  <div class="logo">
+    <div class="logo-icon">H</div>
+    <span>HR</span><span>ly</span>
+  </div>
+  <a class="btn-retour" href="index.html">Retour</a>
+
+  <h1>Postuler pour: {{ offre.titre }}</h1>
+  <p>Description: {{ offre.description }}</p>
+  <p>Publié par: {{ offre.recruteur.username }}</p>
+  <form id="candidature-form" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Envoyer ma candidature</button>
+  </form>
+
+  <footer>
+    Tous droits réservés © 2025
+  </footer>
+
+  <script>
+    document.getElementById('candidature-form').addEventListener('submit', function(event) {
+      var isValid = true;
+
+      // Vérification des champs requis
+      var nomField = document.querySelector('input[name="nom"]');
+      if (!nomField.value.trim()) {
+        isValid = false;
+        alert('Veuillez entrer votre nom.');
+      }
+
+      var emailField = document.querySelector('input[name="email"]');
+      if (!emailField.value.trim() || !validateEmail(emailField.value)) {
+        isValid = false;
+        alert('Veuillez entrer une adresse email valide.');
+      }
+
+      var messageField = document.querySelector('textarea[name="message"]');
+      if (!messageField.value.trim()) {
+        isValid = false;
+        alert('Veuillez entrer votre message.');
+      }
+
+      if (!isValid) {
+        event.preventDefault(); // Empêche l'envoi du formulaire si ce n'est pas valide
+      }
+    });
+
+    function validateEmail(email) {
+      var re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+      return re.test(email);
+    }
+  </script>
 </body>
+</html>
