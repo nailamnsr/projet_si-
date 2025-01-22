@@ -6,10 +6,17 @@
     <title>Fiche Contrat</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
+            background: linear-gradient(to right, #4e73df, #1cc88a);
+            color: #333;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
         h1 {
@@ -53,23 +60,80 @@
         }
 
         a {
-            display: block;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: inline-block;
             text-align: center;
-            margin: 20px auto;
-            padding: 10px;
-            width: 200px;
-            background-color: #4CAF50;
-            color: white;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #4CAF50, #FFC107);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
         }
 
         a:hover {
-            background-color: #45a049;
+            transform: scale(1.1);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            text-transform: uppercase;
+        }
+
+        .logo span:first-child {
+            background: linear-gradient(135deg, #4CAF50, #FFC107);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo span:last-child {
+            color: #e6e12b;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #FFC107, #007BFF);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: #fff;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            position: absolute;
+            bottom: 10px;
+            font-size: 0.8rem;
+            color: #ccc;
+            text-align: center;
+            width: 100%;
         }
     </style>
 </head>
 <body>
+    <div class="logo">
+        <div class="logo-icon">H</div>
+        <span>HR</span><span>ly</span>
+    </div>
     <h1>CONTRAT </h1>
     <div class="fiche-contrat">
         <div class="section">
@@ -93,5 +157,59 @@
         </div>
     </div>
     <a href="{% url 'gestion_contrat' %}">Retour</a>
+
+    <footer>
+        Tous droits réservés © 2025
+    </footer>
+
+    <script>
+        // JavaScript for dynamic interactivity in the contract details page
+
+        // Example: Dynamic validation for contract dates
+        const startDateField = document.querySelector(".section:nth-of-type(1) p:nth-of-type(3) strong");
+        const endDateField = document.querySelector(".section:nth-of-type(1) p:nth-of-type(4) strong");
+
+        // Utility to parse date from text
+        function parseDate(dateString) {
+            const [day, month, year] = dateString.split("-").map(Number); // Assuming DD-MM-YYYY format
+            return new Date(year, month - 1, day);
+        }
+
+        // Example functionality: Alert if the contract's end date is less than 30 days away
+        function checkContractEndDate() {
+            const today = new Date();
+            const startDate = parseDate(startDateField.textContent.trim());
+            const endDate = parseDate(endDateField.textContent.trim());
+
+            // Calculate difference in days
+            const timeDifference = endDate - today;
+            const daysLeft = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+            if (daysLeft > 0 && daysLeft <= 30) {
+                alert(`Attention ! Ce contrat se termine dans ${daysLeft} jours.`);
+            } else if (daysLeft <= 0) {
+                alert("Le contrat est expiré ou se termine aujourd'hui.");
+            }
+        }
+
+        // Add a listener for when the page loads
+        window.addEventListener("load", () => {
+            if (startDateField && endDateField) {
+                checkContractEndDate();
+            }
+        });
+
+        // Example: Enhancing user experience on the "Retour" button
+        const retourButton = document.querySelector("a[href*='gestion_contrat']");
+        if (retourButton) {
+            retourButton.addEventListener("mouseover", () => {
+                retourButton.style.boxShadow = "0 10px 20px rgba(0, 0, 0, 0.4)";
+            });
+
+            retourButton.addEventListener("mouseout", () => {
+                retourButton.style.boxShadow = "0 8px 15px rgba(0, 0, 0, 0.2)";
+            });
+        }
+    </script>
 </body>
 </html>

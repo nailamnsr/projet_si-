@@ -4,9 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiche de Paye - {{ employe.nom }}</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #4e73df, #1cc88a);
+            color: #333;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 1rem;
+            margin: 5px 0;
+            color: #fff;
+        }
+
+        strong {
+            color: #ffc107;
+        }
+
+        div {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        a {
+            display: inline-block;
+            padding: 15px 40px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #4CAF50, #FFC107);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        a:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+        }
+    </style>
 </head>
 <body>
-    <h1>Fiche de Paye pour {{ employe.nom }}</h1>
+    <h1>Fiche de Paye pour {{ employe.nom }} {{ employe.prenom }} </h1>
 
     <div>
         <p><strong>ID Employé:</strong> {{ employe.id }}</p>
@@ -14,7 +79,6 @@
         <p><strong>Prénom:</strong> {{ employe.prenom }}</p>
         <p><strong>Service:</strong> {{ employe.id_service }}</p>
         <p><strong>Nombre d'absence:</strong> {{ employe.nb_absence }}</p>
-        
     </div>
 
     <h2>Détails du Salaire</h2>
@@ -24,12 +88,16 @@
         <p><strong>Primes:</strong> {{ salaire.primes }} dinars</p>
         <p><strong>Salaire total:</strong> {{ salaire.salaire_total }} DA</p>
         <p><strong>Date de paiement:</strong> {{ salaire.date_paiement }}</p>
-        <p><strong> Nombre de demande de Massrouf:</strong> {{ salaire.nbr_massrouf }}fois</p>
-       
+        <p><strong> Nombre de demande de Massrouf:</strong> {{ salaire.nbr_massrouf }} fois</p>
     </div>
 
-    <div>
-        <a href="{% url 'ajouter_salaire' pk=employe.id %}">Retour à la page d'ajout de salaire</a>
-    </div>
+    <a href="{% url 'ajouter_salaire' pk=employe.id %}">Retour à la page d'ajout de salaire</a>
+    <script>
+        document.getElementById('ajouter-salaire').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = this.href;
+        });
+    </script>
 </body>
 </html>
+

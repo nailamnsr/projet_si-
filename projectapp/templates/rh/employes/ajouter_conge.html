@@ -1,6 +1,159 @@
-<h1> Bienvenue </h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">ajouter</button>
-</form>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bienvenue</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #4e73df, #1cc88a);
+      color: #333;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* Logo */
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: #2c3e50;
+      text-transform: uppercase;
+    }
+
+    .logo span:first-child {
+      background: linear-gradient(135deg, #4CAF50, #FFC107);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .logo span:last-child {
+      color: #e6e12b;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #FFC107, #007BFF);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      color: #fff;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Bouton Retour */
+    .btn-retour {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: inline-block;
+      padding: 15px 40px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 50px;
+      background: linear-gradient(90deg, #4CAF50, #FFC107);
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+    }
+
+    .btn-retour:hover {
+      transform: scale(1.1);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Footer */
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.8rem;
+      color: #ccc;
+      text-align: center;
+      width: 100%;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 20px 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    button {
+      background-color: #2575fc;
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #1a5bb8;
+    }
+
+    input, select, textarea {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: 2px solid #2575fc;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">
+    <div class="logo-icon">H</div>
+    <span>HR</span><span>ly</span>
+  </div>
+  <a class="btn-retour" href="gestion_employe.html">Retour</a>
+  
+  <div class="container">
+    <h1>Bienvenue</h1>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Ajouter</button>
+    </form>
+  </div>
+
+  <footer>
+    Tous droits réservés © 2025
+  </footer>
+</body>
+</html>

@@ -4,6 +4,7 @@ urlpatterns = [
     #main paths 
     path('', views.home, name='home'),  # Page d'accueil
     path('redirect/<str:role>/', views.redirect_to_role, name='redirect_to_role'),  # Redirection en fonction du rôle
+    path('main/contactus',views.contact_us , name='contact_us'),
     path('login/manager/', views.login_manager, name='login_manager'),  # Connexion Manager
     path('login/agent_rh/', views.login_agent_rh, name='login_agent_rh'),  # Connexion Agent RH
     path('login/candidat/', views.login_candidat, name='login_candidat'),  # Connexion Candidat

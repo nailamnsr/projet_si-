@@ -2,15 +2,162 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marquer Absence</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #4e73df, #1cc88a);
+            color: #333;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            text-transform: uppercase;
+        }
+
+        .logo span:first-child {
+            background: linear-gradient(135deg, #4CAF50, #FFC107);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo span:last-child {
+            color: #e6e12b;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #FFC107, #007BFF);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: #fff;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-retour {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: inline-block;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #4CAF50, #FFC107);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .btn-retour:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        footer {
+            position: absolute;
+            bottom: 10px;
+            font-size: 0.8rem;
+            color: #ccc;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Style spécifique au contenu de la page d'absence */
+        h1 {
+            font-size: 2rem;
+            color: #2c3e50;
+        }
+
+        form {
+            width: 80%;
+            max-width: 400px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        form button {
+            margin-top: 15px;
+            padding: 10px 30px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: #45a049;
+        }
+
+    </style>
 </head>
 <body>
+    <div class="logo">
+        <div class="logo-icon">H</div>
+        <span>HR</span><span>ly</span>
+    </div>
+    <a class="btn-retour" href="index.html">Retour</a>
+
     <h1>Marquer une Absence</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Enregistrer</button>
     </form>
-    <a href="{% url 'fiche_employe' employe.pk %}">Retour à la Fiche Employé</a>
+    <a class="btn-retour" href="{% url 'fiche_employe' employe.pk %}">Retour à la Fiche Employé</a>
+
+    <footer>
+        Tous droits réservés © 2025
+    </footer>
+    <script>
+        document.getElementById('absence-form').addEventListener('submit', function(event) {
+            let formIsValid = true;
+            const inputs = this.querySelectorAll('input, textarea');
+
+            inputs.forEach(input => {
+                if (input.required && !input.value.trim()) {
+                    formIsValid = false;
+                    input.style.border = '2px solid red';
+                } else {
+                    input.style.border = '';
+                }
+            });
+
+            if (!formIsValid) {
+                event.preventDefault();
+                alert('Veuillez remplir tous les champs obligatoires.');
+            }
+        });
+    </script>
 </body>
 </html>

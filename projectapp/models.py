@@ -32,6 +32,7 @@ class Employe(models.Model):
     sexe=models.CharField(max_length=10,choices=CHOICE_SEXE)
     def incrementer_absence(self):
         """Méthode pour incrémenter le nombre d'absences."""
+        
         self.nb_absence += 1
         self.save()
         

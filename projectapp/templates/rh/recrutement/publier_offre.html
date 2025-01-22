@@ -1,77 +1,196 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Publier une Offre d'Emploi</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
-        main {
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #343a40;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        label {
-            font-weight: bold;
-            color: #343a40;
-        }
-        input, textarea {
-            padding: 10px;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-        }
-        textarea {
-            resize: vertical;
-        }
-        button {
-            padding: 10px;
-            font-size: 16px;
-            color: white;
-            background-color: #28a745;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #218838;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logo et Retour</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #4e73df, #1cc88a);
+      color: #333;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* Logo */
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: #2c3e50;
+      text-transform: uppercase;
+    }
+
+    .logo span:first-child {
+      background: linear-gradient(135deg, #4CAF50, #FFC107);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .logo span:last-child {
+      color: #e6e12b;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #FFC107, #007BFF);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      color: #fff;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Bouton Retour */
+    .btn-retour {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: inline-block;
+      padding: 15px 40px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 50px;
+      background: linear-gradient(90deg, #4CAF50, #FFC107);
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+    }
+
+    .btn-retour:hover {
+      transform: scale(1.1);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Footer */
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.8rem;
+      color: #ccc;
+      text-align: center;
+      width: 100%;
+    }
+
+    /* Code intégré */
+    main {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #343a40;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    label {
+      font-weight: bold;
+      color: #343a40;
+    }
+    input, textarea {
+      padding: 10px;
+      border: 1px solid #ced4da;
+      border-radius: 5px;
+    }
+    textarea {
+      resize: vertical;
+    }
+    button {
+      padding: 10px;
+      font-size: 16px;
+      color: white;
+      background-color: #28a745;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+
+  </style>
 </head>
 <body>
+  <div class="logo">
+    <div class="logo-icon">H</div>
+    <span>HR</span><span>ly</span>
+  </div>
+  <a class="btn-retour" href="{% url 'gestion_recrutement' %}">Retour</a>
 
-<main>
+  <main>
     <h1>Publier une Offre d'Emploi</h1>
     <form method="post" action="{% url 'publier_offre' %}">
-        {% csrf_token %}
-        <label for="titre">Titre de l'offre</label>
-        <input type="text" id="titre" name="titre" placeholder="Exemple : Comptable" required>
+      {% csrf_token %}
+      <label for="titre">Titre de l'offre</label>
+      <input type="text" id="titre" name="titre" placeholder="Exemple : Comptable" required>
 
-        <label for="description">Description</label>
-        <textarea id="description" name="description" rows="6" placeholder="Détails de l'offre d'emploi" required></textarea>
+      <label for="description">Description</label>
+      <textarea id="description" name="description" rows="6" placeholder="Détails de l'offre d'emploi" required></textarea>
 
-        <label for="date_publication">Date de publication</label>
-        <input type="date" id="date_publication" name="date_publication" required>
+      <label for="date_publication">Date de publication</label>
+      <input type="date" id="date_publication" name="date_publication" required>
 
-        <button type="submit">Publier</button>
+      <button type="submit">Publier</button>
     </form>
-</main>
+  </main>
 
+  <footer>
+    Tous droits réservés © 2025
+  </footer>
+  
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Fonction pour désactiver le défilement
+        function disableScroll() {
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Fonction pour réactiver le défilement
+        function enableScroll() {
+            document.body.style.overflow = 'auto';
+        }
+
+        // Désactiver le défilement sur la page initiale
+        disableScroll();
+
+        // Événement sur le bouton "Retour" pour réactiver le défilement
+        document.querySelector('.btn-retour').addEventListener('click', function() {
+            enableScroll();
+        });
+
+        // Éventuellement d'autres interactions où vous souhaitez gérer le défilement
+        // Par exemple, réactiver le défilement après une soumission de formulaire
+        document.querySelector('form').addEventListener('submit', function() {
+            enableScroll();
+        });
+    });
+  </script>
 </body>
 </html>

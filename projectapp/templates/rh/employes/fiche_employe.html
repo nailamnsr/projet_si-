@@ -6,138 +6,213 @@
     <title>Fiche Employé</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-        }
-
-        h1 {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
             text-align: center;
-            color: white;
-            background-color: #4CAF50;
-            margin: 0;
-            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        .fiche-employe {
-            width: 80%;
-            max-width: 800px;
-            margin: 30px auto;
-            background-color: white;
-            border-radius: 8px;
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            text-transform: uppercase;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #FFC107, #007BFF);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: #fff;
+            font-weight: bold;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
         }
 
-        .section {
-            margin-bottom: 20px;
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
+        .btn-retour {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #28a745, #FFC107);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
         }
 
-        .section:last-child {
-            border-bottom: none;
+        .btn-retour:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
         }
 
-        .section h2 {
-            margin: 0 0 10px;
-            font-size: 18px;
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: white;
             color: #333;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
         }
 
-        .section p, .section ul {
-            margin: 0;
-            font-size: 16px;
-            color: #555;
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #ddd;
         }
 
-        ul {
-            list-style-type: none;
-            padding: 0;
+        th {
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+            color: white;
+            text-transform: uppercase;
+            font-weight: bold;
         }
 
-        ul li {
-            margin-bottom: 5px;
+        tr:nth-child(even) {
+            background-color: #e8f5e9;
+        }
+
+        tr:hover {
+            background-color: #d0f0fd;
         }
 
         a {
             display: block;
-            text-align: center;
-            margin: 20px auto;
-            padding: 10px;
             width: 200px;
+            text-align: center;
+            padding: 15px;
             background-color: #4CAF50;
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+            margin: 30px auto;
+            border-radius: 25px;
+            transition: all 0.3s ease;
         }
 
         a:hover {
-            background-color: #45a049;
+            background-color: #FFC107;
+            color: #333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
 <body>
+
+    <!-- Logo -->
+    <header class="logo">
+        <div class="logo-icon">H</div>
+        <span>HR</span><span>ly</span>
+    </header>
+
+    <!-- Titre principal -->
     <h1>Fiche Employé</h1>
-    <div class="fiche-employe">
-        <div class="section">
-            <h2>Informations Personnelles</h2>
-            <p><strong>Nom :</strong> {{ employe.nom }}</p>
-            <p><strong>Prénom :</strong> {{ employe.prenom }}</p>
-            <p><strong>Date de Naissance :</strong> {{ employe.date_naissance }}</p>
-            <p><strong>Adresse :</strong> {{ employe.adresse }}</p>
-        </div>
 
-        <div class="section">
-            <h2>Historique Professionnel</h2>
-            <p>{{ employe.historique_professionnel }}</p>
-        </div>
+    <!-- Table des employés -->
+    <table id="employeeTable">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Date de Naissance</th>
+                <th>Adresse</th>
+                <th>Historique Professionnel</th>
+                <th>Compétences</th>
+                <th>Formations</th>
+                <th>Solde Congé</th>
+                <th>Nombre d'Absences</th>
+                <th>Dates d'Absence</th>
+                <th>Congés Pris</th>
+                <th>Jours Restants</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ employe.nom }}</td>
+                <td>{{ employe.prenom }}</td>
+                <td>{{ employe.date_naissance }}</td>
+                <td>{{ employe.adresse }}</td>
+                <td>{{ employe.historique_professionnel }}</td>
+                <td>{{ employe.competences }}</td>
+                <td>{{ employe.formations }}</td>
+                <td>{{ employe.solde_conge }}</td>
+                <td>{{ employe.nb_absence }}</td>
+                <td>
+                    <ul>
+                        {% for absence in absences %}
+                            <li>{{ absence.date_absence }}</li>
+                        {% empty %}
+                            <li>Aucune absence enregistrée</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        {% for conge in conge_data %}
+                            <li>{{ conge.conge.code_conge }} - {{ conge.conge.get_type_conge_display }} : {{ conge.conge.get_nombre_jours }} jours</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        {% for conge in conge_data %}
+                            <li>{{ conge.jours_restants }} jours restants</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-        <div class="section">
-            <h2>Compétences</h2>
-            <p>{{ employe.competences }}</p>
-        </div>
+    <a href="{% url 'gestion_employe' %}" class="btn-retour">Retour</a>
 
-        <div class="section">
-            <h2>Formations</h2>
-            <p>{{ employe.formations }}</p>
-        </div>
+    <script>
+        // JavaScript for sorting columns in the table
+        document.addEventListener('DOMContentLoaded', function() {
+            let table = document.getElementById('employeeTable');
+            let headers = table.querySelectorAll('th');
 
-        <div class="section">
-            <h2>Congés</h2>
-            <p><strong>Solde Congé :</strong> {{ employe.solde_conge }}</p>
-            <ul>
-                <li><strong>Congés Pris :</strong></li>
-                {% for conge in conge_data %}
-                    <li>{{ conge.conge.code_conge }} - {{ conge.conge.get_type_conge_display }} : {{ conge.conge.get_nombre_jours }} jours</li>
-                {% endfor %}
-            </ul>
-        </div>
+            headers.forEach(header => {
+                header.addEventListener('click', () => {
+                    let index = Array.from(header.parentNode.children).indexOf(header);
+                    let rows = Array.from(table.querySelectorAll('tbody tr'));
 
-        <div class="section">
-            <h2>Absences</h2>
-            <p><strong>Nombre d'Absences :</strong> {{ employe.nb_absence }}</p>
-            <ul>
-                <li><strong>Dates d'Absence :</strong></li>
-                {% for absence in absences %}
-                    <li>{{ absence.date_absence }}</li>
-                {% empty %}
-                    <li>Aucune absence enregistrée</li>
-                {% endfor %}
-            </ul>
-        </div>
+                    rows.sort((rowA, rowB) => {
+                        let cellA = rowA.children[index].innerText;
+                        let cellB = rowB.children[index].innerText;
 
-        <div class="section">
-            <h2>Jours Restants</h2>
-            <ul>
-                {% for conge in conge_data %}
-                    <li>{{ conge.jours_restants }} jours restants</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-    <a href="{% url 'gestion_employe' %}">Retour</a>
+                        return cellA.localeCompare(cellB);
+                    });
+
+                    rows.forEach(row => table.querySelector('tbody').appendChild(row));
+                });
+            });
+        });
+    </script>
+
 </body>
 </html>
 

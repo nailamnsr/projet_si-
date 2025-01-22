@@ -17,8 +17,8 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh; /* Change from height to min-height */
+            overflow-y: auto; /* Allow vertical scrolling */
         }
 
         h1 {
@@ -196,7 +196,7 @@
     <!-- Container de boutons -->
     <div class="buttons-container">
         <a href="{% url 'contract_create' %}">Ajouter un Contrat</a>
-        <a href="{% url 'home' %}" class="btn-retour">Retour</a>
+        <a href="{% url 'main_rh' %}" class="btn-retour">Retour</a>
         <a href="{% url 'employe_create' %}" class="add-employee">Ajouter un Employé</a>
     </div>
 

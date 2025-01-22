@@ -61,6 +61,8 @@ def login_candidat(request):
 
 def home(request):
     return render(request, 'home.html')
+def contact_us(request):
+    return render(request, 'q.html')
 #page principal de lagent rh     
 def main_rh(request):
     employes = Employe.objects.all()
@@ -492,8 +494,8 @@ def ajouter_salaire(request, pk):
             salaire_quot = salaire.salaire_base / 30
             salaire.salaire_quot = salaire_quot
             salaire.salaire_total = (
-                salaire.salaire_base
-                + salaire.primes
+                (salaire.salaire_base
+                + salaire.primes)
                 - (salaire_quot * nb_absences) 
                 - (salaire_quot * nbr_massrouf )  
             )
@@ -509,4 +511,3 @@ def ajouter_salaire(request, pk):
         'form': form,
         'employe': employe,   
     })
-   

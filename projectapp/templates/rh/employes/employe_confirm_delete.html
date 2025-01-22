@@ -1,7 +1,194 @@
-<h1>Confirmer la Suppression</h1>
-<p>Êtes-vous sûr de vouloir supprimer {{ employe.nom }} {{ employe.prenom }} ?</p>
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Oui, supprimer</button>
-    <a href="{% url 'gestion_employe' %}">Annuler</a>
-</form>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmer la Suppression</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #4e73df, #1cc88a);
+            color: #333;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            text-transform: uppercase;
+        }
+
+        .logo span:first-child {
+            background: linear-gradient(135deg, #4CAF50, #FFC107);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo span:last-child {
+            color: #e6e12b;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #FFC107, #007BFF);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: #fff;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-retour {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: inline-block;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #4CAF50, #FFC107);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .btn-retour:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .confirmation-box {
+            background: #fff;
+            padding: 30px 50px;
+            border-radius: 10px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .confirmation-box h1 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .confirmation-box p {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .confirmation-box button, .confirmation-box a {
+            padding: 10px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        .confirmation-box button {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+        .confirmation-box button:hover {
+            background: #c0392b;
+        }
+
+        .confirmation-box a {
+            background: #3498db;
+            color: #fff;
+        }
+
+        .confirmation-box a:hover {
+            background: #2980b9;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 10px;
+            font-size: 0.8rem;
+            color: #ccc;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <div class="logo-icon">H</div>
+        <span>HR</span><span>ly</span>
+    </div>
+    <a class="btn-retour" href="{% url 'gestion_employe' %}">Retour</a>
+
+    <div class="confirmation-box">
+        <h1>Confirmer la Suppression</h1>
+        <p>Êtes-vous sûr de vouloir supprimer {{ employe.nom }} {{ employe.prenom }} ?</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Oui, supprimer</button>
+            <a href="{% url 'gestion_employe' %}">Annuler</a>
+        </form>
+    </div>
+
+    <footer>
+        Tous droits réservés © 2025
+    </footer>
+
+    <script>
+        // Gestion du bouton de confirmation
+        const confirmDeleteButton = document.querySelector('.confirmation-box button');
+        const cancelDeleteLink = document.querySelector('.confirmation-box a');
+
+        // Animation lors du clic sur les boutons
+        confirmDeleteButton.addEventListener('click', (event) => {
+            const confirmation = confirm("Êtes-vous sûr de vouloir supprimer cet employé ?");
+            if (!confirmation) {
+                event.preventDefault();
+            }
+        });
+
+        cancelDeleteLink.addEventListener('mouseover', () => {
+            cancelDeleteLink.style.transform = 'scale(1.1)';
+        });
+
+        cancelDeleteLink.addEventListener('mouseout', () => {
+            cancelDeleteLink.style.transform = 'scale(1)';
+        });
+
+        // Protection contre les actions répétées
+        const deleteForm = document.querySelector('form');
+        deleteForm.addEventListener('submit', (event) => {
+            confirmDeleteButton.disabled = true;
+            confirmDeleteButton.innerText = 'Suppression en cours...';
+        });
+    </script>
+</body>
+</html>
